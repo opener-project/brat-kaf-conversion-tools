@@ -3,3 +3,4 @@
 .project
 target/
 dependency_reduced_pom.xml
+**ws/
