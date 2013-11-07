@@ -1,0 +1,5 @@
+T1	Miscellaneous 0 4	This
+T2	Miscellaneous 8 14	a test
+T3	Miscellaneous 17 21	With
+*	COREF T1 T3
+N1	Reference T3 OUR_KB:1111	This

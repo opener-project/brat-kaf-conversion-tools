@@ -2,10 +2,8 @@ package org.vicomtech.opener.bratAdaptionTools;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -24,25 +22,40 @@ public class BratToKafParser {
 			this.length=length;
 			this.text=text;
 		}
+		@Override
+		public String toString() {
+			return "WhitespaceTokenInfo [offset=" + offset + ", length="
+					+ length + ", text=" + text + "]";
+		}
 	}
 	
 	private String bratTxtDoc;
 	private String bratAnnDoc;
 	
-	private List<WhitespaceTokenInfo>whitespaceTokenList;
-	private List<BratAnnotation>bratAnnotations;
-
-	public BratToKafParser(){
-		whitespaceTokenList=Lists.newArrayList();
-		bratAnnotations=Lists.newArrayList();
-	}
+//	public String getBratTxtDoc() {
+//		return bratTxtDoc;
+//	}
+//
+//	public void setBratTxtDoc(String bratTxtDoc) {
+//		this.bratTxtDoc = bratTxtDoc;
+//	}
+//
+//	public String getBratAnnDoc() {
+//		return bratAnnDoc;
+//	}
+//
+//	public void setBratAnnDoc(String bratAnnDoc) {
+//		this.bratAnnDoc = bratAnnDoc;
+//	}
 	
 	public void loadFiles(String fullPath){
 		try {
 			InputStream bratTxtDocIs=new FileInputStream(new File(fullPath));
 			InputStream bratAnnDocIs=new FileInputStream(new File(fullPath.replace(".txt", ".ann")));
 			loadFiles(bratTxtDocIs, bratAnnDocIs);
-		} catch (FileNotFoundException e) {
+			bratTxtDocIs.close();
+			bratAnnDocIs.close();
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -52,44 +65,46 @@ public class BratToKafParser {
 	}
 	
 	protected void readFiles(InputStream bratTxtDocIs,InputStream bratAnnDocIs){
-		StringWriter writer = new StringWriter();
 		try {
-			IOUtils.copy(bratTxtDocIs, writer, "UTF-8");
-			bratTxtDoc = writer.toString();
-			IOUtils.copy(bratAnnDocIs, writer, "UTF-8");
-			bratAnnDoc = writer.toString();
+			bratTxtDoc = IOUtils.toString(bratTxtDocIs, "UTF-8");
+			bratAnnDoc = IOUtils.toString(bratAnnDocIs, "UTF-8");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	protected void feedWhitespaceTokenList(){
+	protected List<WhitespaceTokenInfo> obtainWhitespaceTokenList(String bratTxtDoc){
 		String[]whiteSpaceTokens=bratTxtDoc.split(" |\n");
+		List<WhitespaceTokenInfo>whitespaceTokenList=Lists.newArrayList();
 		int offsetCount=0;
 		for(String token:whiteSpaceTokens){
+			token=token.trim();
 			WhitespaceTokenInfo whitespaceTokenInfo=new WhitespaceTokenInfo(offsetCount, token.length(), token);
 			offsetCount+=token.length()+1;
 			whitespaceTokenList.add(whitespaceTokenInfo);
 		}
+		return whitespaceTokenList;
 	}
 	
-	protected void parseBratAnnFile(){
+	protected List<BratAnnotation> parseBratAnnFile(String bratAnnDoc){
 		String[]bratAnnFileLines=bratAnnDoc.split("\n");
+		List<BratAnnotation>bratAnnotations=Lists.newArrayList();
 		for(String bratAnnFileLine:bratAnnFileLines){
-			BratAnnotation bratAnnotation=parseBratAnnotation(bratAnnFileLine);
+			BratAnnotation bratAnnotation=parseBratAnnotation(bratAnnFileLine.trim());
 			bratAnnotations.add(bratAnnotation);
 		}
+		return bratAnnotations;
 	}
 	
 	protected BratAnnotation parseBratAnnotation(String bratAnnotationLine){
-		String[]tabSeparatedColumns=bratAnnotationLine.split("\t+");
+		String[]tabSeparatedColumns=bratAnnotationLine.trim().split("\t+");
 		String annotationId=tabSeparatedColumns[0];
 		String annotationInfo=tabSeparatedColumns[1];
 		List<String>involvedEntities=getInvolvedEntities(annotationId, annotationInfo);
 		String annotationType=getAnnotationType(annotationId, annotationInfo);
 		int[]span=getSpan(annotationId, annotationInfo);
-		String annotationText=tabSeparatedColumns[2];
-		Reference reference=getReference(annotationId, annotationInfo);
+		String annotationText=tabSeparatedColumns.length==3?tabSeparatedColumns[2]:"";
+		Reference reference=annotationId.startsWith("N")?getReference(annotationId, annotationInfo):null;
 		BratAnnotation bratAnnotation=new BratAnnotation();
 		bratAnnotation.setId(annotationId);
 		bratAnnotation.setOffsets(span[0], span[1]);
@@ -140,33 +155,36 @@ public class BratToKafParser {
 		return span;
 	}
 	
-	protected void mapAnnotationsToTokens(){
+	protected void mapAnnotationsToTokens(List<BratAnnotation>bratAnnotations, List<WhitespaceTokenInfo>whitespaceTokenList){
 		for(BratAnnotation bratAnnotation:bratAnnotations){
 			if(bratAnnotation.isEntity()){
-				
+				//System.out.println(bratAnnotation);
+				int[] kafTokenSpan = getKafTokenSpan(bratAnnotation, whitespaceTokenList);
+				bratAnnotation.setKafTokenSpan(kafTokenSpan);
 			}
 		}
 	}
 	
-	protected int[] getKafTokenSpan(BratAnnotation bratAnnotation){
+	protected int[] getKafTokenSpan(BratAnnotation bratAnnotation, List<WhitespaceTokenInfo>whitespaceTokenList){
 		int[] kafTokenSpan=new int[]{-1,-1};
 		for(int i=0;i<whitespaceTokenList.size();i++){
 			WhitespaceTokenInfo tokenInfo=whitespaceTokenList.get(i);
+			//System.out.println(tokenInfo+"\n"+bratAnnotation);
 			//Continue iterating
-			if(bratAnnotation.getStart()<tokenInfo.offset){
+			if(tokenInfo.offset<bratAnnotation.getStart()){
 				continue;
 			}
 			//this is the first token of the span
-			else if(bratAnnotation.getStart()==tokenInfo.offset){
+			if(bratAnnotation.getStart()==tokenInfo.offset){
 				kafTokenSpan[0]=i;
-				if(bratAnnotation.getEnd()==tokenInfo.offset+tokenInfo.length){
-					//and it is also the last (so only one)
-					kafTokenSpan[1]=i;
-					return kafTokenSpan;
-				}
+//				if(bratAnnotation.getEnd()==tokenInfo.offset+tokenInfo.length+1){
+//					//and it is also the last (so only one)
+//					kafTokenSpan[1]=i;
+//					return kafTokenSpan;
+//				}
 			}
 			//looking for the end of the span
-			else if(bratAnnotation.getEnd()==tokenInfo.offset+tokenInfo.length){
+			if(bratAnnotation.getEnd()==tokenInfo.offset+tokenInfo.length){
 				kafTokenSpan[1]=i;
 				return kafTokenSpan;
 			}

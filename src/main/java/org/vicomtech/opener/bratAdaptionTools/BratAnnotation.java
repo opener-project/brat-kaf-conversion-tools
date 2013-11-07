@@ -1,5 +1,6 @@
 package org.vicomtech.opener.bratAdaptionTools;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -33,6 +34,15 @@ public class BratAnnotation {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "BratAnnotation [id=" + id + ", type=" + type + ", offsets="
+				+ Arrays.toString(offsets) + ", involvedEntities="
+				+ involvedEntities + ", text=" + text + ", kafTokenSpan="
+				+ Arrays.toString(kafTokenSpan) + ", reference=" + reference
+				+ "]";
 	}
 
 	public String getType() {
