@@ -1,4 +1,4 @@
-package org.vicomtech.opener.bratAdaptionTools;
+package org.vicomtech.opener.bratAdaptionTools.model;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,9 +8,9 @@ import com.google.common.collect.Lists;
 public class BratAnnotation {
 
 	public static class Reference {
-		public String entity;
-		public String knowledgeBaseName;
-		public String resourceId;
+		private String entity;
+		private String knowledgeBaseName;
+		private String resourceId;
 
 		public Reference(String entity, String knowledgeBaseName,
 				String resourceId) {
@@ -18,12 +18,42 @@ public class BratAnnotation {
 			this.knowledgeBaseName = knowledgeBaseName;
 			this.resourceId = resourceId;
 		}
+
+		public String getEntity() {
+			return entity;
+		}
+
+		public void setEntity(String entity) {
+			this.entity = entity;
+		}
+
+		public String getKnowledgeBaseName() {
+			return knowledgeBaseName;
+		}
+
+		public void setKnowledgeBaseName(String knowledgeBaseName) {
+			this.knowledgeBaseName = knowledgeBaseName;
+		}
+
+		public String getResourceId() {
+			return resourceId;
+		}
+
+		public void setResourceId(String resourceId) {
+			this.resourceId = resourceId;
+		}
+
+		@Override
+		public String toString() {
+			return "Reference [entity=" + entity + ", knowledgeBaseName="
+					+ knowledgeBaseName + ", resourceId=" + resourceId + "]";
+		}
 	}
 
 	private String id;
 	private String type;
 	private int[] offsets = new int[] { -1, -1 };
-	private List<String> involvedEntities;
+	private List<String> involvedEntities=Lists.newArrayList();
 	private String text;
 	private int[] kafTokenSpan = new int[] { -1, -1 };;
 	private Reference reference;

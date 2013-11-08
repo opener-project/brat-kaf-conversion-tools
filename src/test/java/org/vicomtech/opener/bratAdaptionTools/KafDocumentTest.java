@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.vicomtech.opener.bratAdaptionTools.model.KafDocument;
 
 import eu.openerproject.kaf.layers.KafWordForm;
 
@@ -16,7 +17,7 @@ public class KafDocumentTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		kafDocument=new KafDocument();
+		kafDocument=KafDocument.getEmptyKafDocument();
 		exampleKafWordForm=new KafWordForm();
 		exampleKafWordForm.setWid("w1");
 		exampleKafWordForm.setSent(1);
@@ -33,17 +34,17 @@ public class KafDocumentTest {
 	@Test
 	public void testKafDocumentInputStream() {
 		InputStream is=Class.class.getResourceAsStream("/kaf-example.xml");
-		kafDocument=new KafDocument(is);
+		kafDocument=KafDocument.parseKafDocument(is);
 		String kafString=kafDocument.getKafAsString();
 		assertNotNull(kafString);
 		System.out.println(kafString);
 	}
 
-	@Test
-	public void testInitEmptyKaf() {
-		kafDocument.initEmptyKaf();
-		assertEquals(kafDocument.getWordList().size(),0);
-	}
+//	@Test
+//	public void testInitEmptyKaf() {
+//		kafDocument.initEmptyKaf();
+//		assertEquals(kafDocument.getWordList().size(),0);
+//	}
 
 	@Test
 	public void testAddWordForm() {
