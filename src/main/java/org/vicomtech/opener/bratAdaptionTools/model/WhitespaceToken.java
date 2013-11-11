@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import eu.openerproject.kaf.layers.KafWordForm;
+
 public class WhitespaceToken {
 	private int start;
 	private int end;
@@ -58,5 +60,30 @@ public class WhitespaceToken {
 			whitespaceTokenList.add(whitespaceToken);
 		}
 		return whitespaceTokenList;
+	}
+	
+	public static String generateWhiteSpaceTokenizedText(KafDocument kafDocument){
+		StringBuffer sb=new StringBuffer();
+		List<KafWordForm>kafWordForms=kafDocument.getWordList();
+		int currentSentence=1;
+		for(KafWordForm kafWordForm:kafWordForms){
+			if(kafWordForm.getSent()!=currentSentence){
+				sb.deleteCharAt(sb.length()-1);
+				sb.append("\n");
+				currentSentence=kafWordForm.getSent();
+			}
+			sb.append(kafWordForm.getWordform());
+			sb.append(" ");
+		}
+		return sb.toString().trim();
+	}
+	
+	public static String getEnclosingText(List<WhitespaceToken>whiteSpaceTokens,int first,int last){
+		StringBuffer sb=new StringBuffer();
+		for(int i=first;i<=last;i++){
+			sb.append(whiteSpaceTokens.get(i).getText());
+			sb.append(" ");
+		}
+		return sb.toString().trim();
 	}
 }

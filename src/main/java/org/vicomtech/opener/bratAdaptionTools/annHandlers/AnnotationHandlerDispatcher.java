@@ -2,6 +2,8 @@ package org.vicomtech.opener.bratAdaptionTools.annHandlers;
 
 import java.util.Map;
 
+import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation;
+
 import com.google.common.collect.Maps;
 
 public class AnnotationHandlerDispatcher {
@@ -31,6 +33,15 @@ public class AnnotationHandlerDispatcher {
 	
 	public AnnotationHandler getAnnotationHandler(String bratAnnotationLine){
 		String key=bratAnnotationLine.substring(0,1);
+		return getAnnotationHandlerByKey(key);
+	}
+	
+	public AnnotationHandler getAnnotationHandler(BratAnnotation bratAnnotation){
+		String key=bratAnnotation.getId().substring(0,1);
+		return getAnnotationHandlerByKey(key);
+	}
+	
+	protected AnnotationHandler getAnnotationHandlerByKey(String key){
 		if(!handlers.containsKey(key)){
 			throw new RuntimeException("No annotation handler configured for key: "+key);
 		}

@@ -1,7 +1,19 @@
 package org.vicomtech.opener.bratAdaptionTools;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.vicomtech.opener.bratAdaptionTools.BratAnnotationsManager.AnnotationIdType;
+import org.vicomtech.opener.bratAdaptionTools.annHandlers.AnnotationHandler;
+import org.vicomtech.opener.bratAdaptionTools.annHandlers.AnnotationHandlerDispatcher;
+import org.vicomtech.opener.bratAdaptionTools.kafHandlers.KafEntityTokenExtractorHandler;
+import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation;
 import org.vicomtech.opener.bratAdaptionTools.model.KafDocument;
+import org.vicomtech.opener.bratAdaptionTools.model.KafTokenSpan;
 import org.vicomtech.opener.bratAdaptionTools.model.PreannotationConfig;
+import org.vicomtech.opener.bratAdaptionTools.model.WhitespaceToken;
+
+import com.google.common.collect.Lists;
 
 public class KafToBratConverter {
 	
@@ -12,7 +24,32 @@ public class KafToBratConverter {
 	
 	public String generateBratAnnotation(KafDocument kafDocument, PreannotationConfig preAnnotationConfig){
 		
-		return null;
+		List<KafTokenSpan>kafTokenSpans=Lists.newArrayList();
+		for(KafEntityTokenExtractorHandler handler:preAnnotationConfig.getPreannotationHandlers()){
+			kafTokenSpans.addAll(handler.handle(kafDocument));
+		}
+		kafTokenSpans=KafTokenSpan.mergeKafTokenSpans(kafTokenSpans);
+		String whiteSpaceTokenizedText=WhitespaceToken.generateWhiteSpaceTokenizedText(kafDocument);
+		List<WhitespaceToken> whitespaceTokenList = WhitespaceToken.parseText(whiteSpaceTokenizedText);
+		BratAnnotationsManager bratAnnotationsManager=new BratAnnotationsManager();
+		AnnotationIdType annotationIdType=AnnotationIdType.ENTITY;
+		String type="markable";
+		for(KafTokenSpan kafTokenSpan:kafTokenSpans){
+			int start=whitespaceTokenList.get(kafTokenSpan.getInitialToken()).getStart();
+			int end=whitespaceTokenList.get(kafTokenSpan.getFinalToken()).getEnd();
+			String text=WhitespaceToken.getEnclosingText(whitespaceTokenList, kafTokenSpan.getInitialToken(), kafTokenSpan.getFinalToken());
+			bratAnnotationsManager.addAnnotation(annotationIdType, type, start, end, new ArrayList<String>(), text);
+		}
+		List<BratAnnotation> bratAnnotations = bratAnnotationsManager.getAnnotations();
+		AnnotationHandlerDispatcher annotationHandlerDispatcher=AnnotationHandlerDispatcher.getAnnotationHandlerDispatcher();
+		StringBuffer sb=new StringBuffer();
+		for(BratAnnotation bratAnnotation:bratAnnotations){
+			AnnotationHandler annotationHandler=annotationHandlerDispatcher.getAnnotationHandler(bratAnnotation);
+			String annotationString=annotationHandler.writeAnnotation(bratAnnotation);
+			sb.append(annotationString);
+			sb.append("\n");
+		}
+		return sb.toString().trim();
 	}
 	
 	//MAPPING TOKEN BETWEEN KAF AND WHITESPACE TOKENIZED FILES FOR BRAT
@@ -22,4 +59,5 @@ public class KafToBratConverter {
 	
 	//Maybe what we need is a map KAF_TOKEN-->WhitespaceToken (which contains the spans)
 	//The we can play with the annotations ANN1 --> WSToken1.start .. WSTokenN.end
+
 }
