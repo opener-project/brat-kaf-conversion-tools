@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KAF xml:lang="en" version="v1.opener">
+  <kafHeader>
+    <fileDesc />
+    <linguisticProcessors layer="text">
+      <lp name="opener-tokenizer-en" timestamp="2013-11-12T09:58:32Z" version="1.0" />
+    </linguisticProcessors>
+    <linguisticProcessors layer="terms">
+      <lp name="ehu-pos-en" timestamp="2013-11-12 10:58:32" version="1.0" />
+    </linguisticProcessors>
+    <linguisticProcessors layer="constituents">
+      <lp name="ehu-parse-en" timestamp="2013-11-12 10:58:32" version="1.0" />
+    </linguisticProcessors>
+  </kafHeader>
+  <text>
+    <wf wid="w1" sent="1" para="1" offset="0">The</wf>
+    <wf wid="w2" sent="1" para="1" offset="4">president</wf>
+    <wf wid="w3" sent="1" para="1" offset="14">Barack</wf>
+    <wf wid="w4" sent="1" para="1" offset="21">Obama</wf>
+    <wf wid="w5" sent="1" para="1" offset="27">is</wf>
+    <wf wid="w6" sent="1" para="1" offset="30">a</wf>
+    <wf wid="w7" sent="1" para="1" offset="32">nice</wf>
+    <wf wid="w8" sent="1" para="1" offset="37">person</wf>
+    <wf wid="w9" sent="1" para="1" offset="43">.</wf>
+    <wf wid="w10" sent="2" para="1" offset="45">He</wf>
+    <wf wid="w11" sent="2" para="1" offset="48">is</wf>
+    <wf wid="w12" sent="2" para="1" offset="51">a</wf>
+    <wf wid="w13" sent="2" para="1" offset="53">man</wf>
+    <wf wid="w14" sent="2" para="1" offset="57">married</wf>
+    <wf wid="w15" sent="2" para="1" offset="65">with</wf>
+    <wf wid="w16" sent="2" para="1" offset="70">Michelle</wf>
+    <wf wid="w17" sent="2" para="1" offset="79">Obama</wf>
+    <wf wid="w18" sent="2" para="1" offset="84">.</wf>
+    <wf wid="w19" sent="3" para="1" offset="86">She</wf>
+    <wf wid="w20" sent="3" para="1" offset="90">is</wf>
+    <wf wid="w21" sent="3" para="1" offset="93">a</wf>
+    <wf wid="w22" sent="3" para="1" offset="95">woman</wf>
+    <wf wid="w23" sent="3" para="1" offset="100">.</wf>
+  </text>
+  <terms>
+    <!--The-->
+    <term tid="t1" type="close" lemma="the" pos="D" morphofeat="DT">
+      <span>
+        <target id="w1" />
+      </span>
+    </term>
+    <!--president-->
+    <term tid="t2" type="open" lemma="president" pos="N" morphofeat="NN">
+      <span>
+        <target id="w2" />
+      </span>
+    </term>
+    <!--Barack-->
+    <term tid="t3" type="close" lemma="Barack" pos="R" morphofeat="NNP">
+      <span>
+        <target id="w3" />
+      </span>
+    </term>
+    <!--Obama-->
+    <term tid="t4" type="close" lemma="Obama" pos="R" morphofeat="NNP">
+      <span>
+        <target id="w4" />
+      </span>
+    </term>
+    <!--is-->
+    <term tid="t5" type="open" lemma="be" pos="V" morphofeat="VBZ">
+      <span>
+        <target id="w5" />
+      </span>
+    </term>
+    <!--a-->
+    <term tid="t6" type="close" lemma="a" pos="D" morphofeat="DT">
+      <span>
+        <target id="w6" />
+      </span>
+    </term>
+    <!--nice-->
+    <term tid="t7" type="open" lemma="nice" pos="G" morphofeat="JJ">
+      <span>
+        <target id="w7" />
+      </span>
+    </term>
+    <!--person-->
+    <term tid="t8" type="open" lemma="person" pos="N" morphofeat="NN">
+      <span>
+        <target id="w8" />
+      </span>
+    </term>
+    <!--.-->
+    <term tid="t9" type="close" lemma="." pos="O" morphofeat=".">
+      <span>
+        <target id="w9" />
+      </span>
+    </term>
+    <!--He-->
+    <term tid="t10" type="close" lemma="he" pos="Q" morphofeat="PRP">
+      <span>
+        <target id="w10" />
+      </span>
+    </term>
+    <!--is-->
+    <term tid="t11" type="open" lemma="be" pos="V" morphofeat="VBZ">
+      <span>
+        <target id="w11" />
+      </span>
+    </term>
+    <!--a-->
+    <term tid="t12" type="close" lemma="a" pos="D" morphofeat="DT">
+      <span>
+        <target id="w12" />
+      </span>
+    </term>
+    <!--man-->
+    <term tid="t13" type="open" lemma="man" pos="N" morphofeat="NN">
+      <span>
+        <target id="w13" />
+      </span>
+    </term>
+    <!--married-->
+    <term tid="t14" type="open" lemma="marry" pos="V" morphofeat="VBN">
+      <span>
+        <target id="w14" />
+      </span>
+    </term>
+    <!--with-->
+    <term tid="t15" type="close" lemma="with" pos="P" morphofeat="IN">
+      <span>
+        <target id="w15" />
+      </span>
+    </term>
+    <!--Michelle-->
+    <term tid="t16" type="close" lemma="Michelle" pos="R" morphofeat="NNP">
+      <span>
+        <target id="w16" />
+      </span>
+    </term>
+    <!--Obama-->
+    <term tid="t17" type="close" lemma="Obama" pos="R" morphofeat="NNP">
+      <span>
+        <target id="w17" />
+      </span>
+    </term>
+    <!--.-->
+    <term tid="t18" type="close" lemma="." pos="O" morphofeat=".">
+      <span>
+        <target id="w18" />
+      </span>
+    </term>
+    <!--She-->
+    <term tid="t19" type="close" lemma="she" pos="Q" morphofeat="PRP">
+      <span>
+        <target id="w19" />
+      </span>
+    </term>
+    <!--is-->
+    <term tid="t20" type="open" lemma="be" pos="V" morphofeat="VBZ">
+      <span>
+        <target id="w20" />
+      </span>
+    </term>
+    <!--a-->
+    <term tid="t21" type="close" lemma="a" pos="D" morphofeat="DT">
+      <span>
+        <target id="w21" />
+      </span>
+    </term>
+    <!--woman-->
+    <term tid="t22" type="open" lemma="woman" pos="N" morphofeat="NN">
+      <span>
+        <target id="w22" />
+      </span>
+    </term>
+    <!--.-->
+    <term tid="t23" type="close" lemma="." pos="O" morphofeat=".">
+      <span>
+        <target id="w23" />
+      </span>
+    </term>
+  </terms>
+  <constituents>
+    <tree>
+      <!--Non-terminals-->
+      <nt id="nter1" label="TOP" />
+      <nt id="nter2" label="S" />
+      <nt id="nter3" label="NP" />
+      <nt id="nter4" label="DT" />
+      <nt id="nter5" label="NN" />
+      <nt id="nter6" label="NNP" />
+      <nt id="nter7" label="NNP" />
+      <nt id="nter8" label="VP" />
+      <nt id="nter9" label="VBZ" />
+      <nt id="nter10" label="NP" />
+      <nt id="nter11" label="DT" />
+      <nt id="nter12" label="JJ" />
+      <nt id="nter13" label="NN" />
+      <nt id="nter14" label="." />
+      <!--Terminals-->
+      <!--The-->
+      <t id="ter1">
+        <span>
+          <target id="t1" />
+        </span>
+      </t>
+      <!--president-->
+      <t id="ter2">
+        <span>
+          <target id="t2" />
+        </span>
+      </t>
+      <!--Barack-->
+      <t id="ter3">
+        <span>
+          <target id="t3" />
+        </span>
+      </t>
+      <!--Obama-->
+      <t id="ter4">
+        <span>
+          <target id="t4" />
+        </span>
+      </t>
+      <!--is-->
+      <t id="ter5">
+        <span>
+          <target id="t5" />
+        </span>
+      </t>
+      <!--a-->
+      <t id="ter6">
+        <span>
+          <target id="t6" />
+        </span>
+      </t>
+      <!--nice-->
+      <t id="ter7">
+        <span>
+          <target id="t7" />
+        </span>
+      </t>
+      <!--person-->
+      <t id="ter8">
+        <span>
+          <target id="t8" />
+        </span>
+      </t>
+      <!--.-->
+      <t id="ter9">
+        <span>
+          <target id="t9" />
+        </span>
+      </t>
+      <!--Tree edges-->
+      <edge id="tre2" from="nter2" to="nter1" />
+      <edge id="tre3" from="nter3" to="nter2" />
+      <edge id="tre4" from="nter4" to="nter3" />
+      <edge id="tre5" from="ter1" to="nter4" />
+      <edge id="tre6" from="nter5" to="nter3" />
+      <edge id="tre7" from="ter2" to="nter5" />
+      <edge id="tre8" from="nter6" to="nter3" />
+      <edge id="tre9" from="ter3" to="nter6" />
+      <edge id="tre10" from="nter7" to="nter3" head="yes" />
+      <edge id="tre11" from="ter4" to="nter7" />
+      <edge id="tre12" from="nter8" to="nter2" head="yes" />
+      <edge id="tre13" from="nter9" to="nter8" head="yes" />
+      <edge id="tre14" from="ter5" to="nter9" />
+      <edge id="tre15" from="nter10" to="nter8" />
+      <edge id="tre16" from="nter11" to="nter10" />
+      <edge id="tre17" from="ter6" to="nter11" />
+      <edge id="tre18" from="nter12" to="nter10" />
+      <edge id="tre19" from="ter7" to="nter12" />
+      <edge id="tre20" from="nter13" to="nter10" head="yes" />
+      <edge id="tre21" from="ter8" to="nter13" />
+      <edge id="tre22" from="nter14" to="nter2" />
+      <edge id="tre23" from="ter9" to="nter14" />
+    </tree>
+    <tree>
+      <!--Non-terminals-->
+      <nt id="nter15" label="TOP" />
+      <nt id="nter16" label="S" />
+      <nt id="nter17" label="NP" />
+      <nt id="nter18" label="PRP" />
+      <nt id="nter19" label="VP" />
+      <nt id="nter20" label="VBZ" />
+      <nt id="nter21" label="NP" />
+      <nt id="nter22" label="NP" />
+      <nt id="nter23" label="DT" />
+      <nt id="nter24" label="NN" />
+      <nt id="nter25" label="VP" />
+      <nt id="nter26" label="VBN" />
+      <nt id="nter27" label="PP" />
+      <nt id="nter28" label="IN" />
+      <nt id="nter29" label="NP" />
+      <nt id="nter30" label="NNP" />
+      <nt id="nter31" label="NNP" />
+      <nt id="nter32" label="." />
+      <!--Terminals-->
+      <!--He-->
+      <t id="ter10">
+        <span>
+          <target id="t10" />
+        </span>
+      </t>
+      <!--is-->
+      <t id="ter11">
+        <span>
+          <target id="t11" />
+        </span>
+      </t>
+      <!--a-->
+      <t id="ter12">
+        <span>
+          <target id="t12" />
+        </span>
+      </t>
+      <!--man-->
+      <t id="ter13">
+        <span>
+          <target id="t13" />
+        </span>
+      </t>
+      <!--married-->
+      <t id="ter14">
+        <span>
+          <target id="t14" />
+        </span>
+      </t>
+      <!--with-->
+      <t id="ter15">
+        <span>
+          <target id="t15" />
+        </span>
+      </t>
+      <!--Michelle-->
+      <t id="ter16">
+        <span>
+          <target id="t16" />
+        </span>
+      </t>
+      <!--Obama-->
+      <t id="ter17">
+        <span>
+          <target id="t17" />
+        </span>
+      </t>
+      <!--.-->
+      <t id="ter18">
+        <span>
+          <target id="t18" />
+        </span>
+      </t>
+      <!--Tree edges-->
+      <edge id="tre25" from="nter16" to="nter15" />
+      <edge id="tre26" from="nter17" to="nter16" />
+      <edge id="tre27" from="nter18" to="nter17" head="yes" />
+      <edge id="tre28" from="ter10" to="nter18" />
+      <edge id="tre29" from="nter19" to="nter16" head="yes" />
+      <edge id="tre30" from="nter20" to="nter19" head="yes" />
+      <edge id="tre31" from="ter11" to="nter20" />
+      <edge id="tre32" from="nter21" to="nter19" />
+      <edge id="tre33" from="nter22" to="nter21" head="yes" />
+      <edge id="tre34" from="nter23" to="nter22" />
+      <edge id="tre35" from="ter12" to="nter23" />
+      <edge id="tre36" from="nter24" to="nter22" head="yes" />
+      <edge id="tre37" from="ter13" to="nter24" />
+      <edge id="tre38" from="nter25" to="nter21" />
+      <edge id="tre39" from="nter26" to="nter25" head="yes" />
+      <edge id="tre40" from="ter14" to="nter26" />
+      <edge id="tre41" from="nter27" to="nter25" />
+      <edge id="tre42" from="nter28" to="nter27" head="yes" />
+      <edge id="tre43" from="ter15" to="nter28" />
+      <edge id="tre44" from="nter29" to="nter27" />
+      <edge id="tre45" from="nter30" to="nter29" />
+      <edge id="tre46" from="ter16" to="nter30" />
+      <edge id="tre47" from="nter31" to="nter29" head="yes" />
+      <edge id="tre48" from="ter17" to="nter31" />
+      <edge id="tre49" from="nter32" to="nter16" />
+      <edge id="tre50" from="ter18" to="nter32" />
+    </tree>
+    <tree>
+      <!--Non-terminals-->
+      <nt id="nter33" label="TOP" />
+      <nt id="nter34" label="S" />
+      <nt id="nter35" label="NP" />
+      <nt id="nter36" label="PRP" />
+      <nt id="nter37" label="VP" />
+      <nt id="nter38" label="VBZ" />
+      <nt id="nter39" label="NP" />
+      <nt id="nter40" label="DT" />
+      <nt id="nter41" label="NN" />
+      <nt id="nter42" label="." />
+      <!--Terminals-->
+      <!--She-->
+      <t id="ter19">
+        <span>
+          <target id="t19" />
+        </span>
+      </t>
+      <!--is-->
+      <t id="ter20">
+        <span>
+          <target id="t20" />
+        </span>
+      </t>
+      <!--a-->
+      <t id="ter21">
+        <span>
+          <target id="t21" />
+        </span>
+      </t>
+      <!--woman-->
+      <t id="ter22">
+        <span>
+          <target id="t22" />
+        </span>
+      </t>
+      <!--.-->
+      <t id="ter23">
+        <span>
+          <target id="t23" />
+        </span>
+      </t>
+      <!--Tree edges-->
+      <edge id="tre52" from="nter34" to="nter33" />
+      <edge id="tre53" from="nter35" to="nter34" />
+      <edge id="tre54" from="nter36" to="nter35" head="yes" />
+      <edge id="tre55" from="ter19" to="nter36" />
+      <edge id="tre56" from="nter37" to="nter34" head="yes" />
+      <edge id="tre57" from="nter38" to="nter37" head="yes" />
+      <edge id="tre58" from="ter20" to="nter38" />
+      <edge id="tre59" from="nter39" to="nter37" />
+      <edge id="tre60" from="nter40" to="nter39" />
+      <edge id="tre61" from="ter21" to="nter40" />
+      <edge id="tre62" from="nter41" to="nter39" head="yes" />
+      <edge id="tre63" from="ter22" to="nter41" />
+      <edge id="tre64" from="nter42" to="nter34" />
+      <edge id="tre65" from="ter23" to="nter42" />
+    </tree>
+  </constituents>
+</KAF>

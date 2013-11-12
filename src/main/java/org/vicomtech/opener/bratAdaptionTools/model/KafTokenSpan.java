@@ -1,5 +1,8 @@
 package org.vicomtech.opener.bratAdaptionTools.model;
 
+import ixa.kaflib.Term;
+import ixa.kaflib.WF;
+
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -86,7 +89,27 @@ public class KafTokenSpan {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "[KafTokenSpan:"+initialToken+","+finalToken+"]";
+	}
+	
+	public static KafTokenSpan getKafTokenSpan(List<Term> terms, KafDocument kafDoc) {
+		List<WF>wordForms=Lists.newArrayList();
+		for(Term term:terms){
+			wordForms.addAll(term.getWFs());
+		}
+		return getKafTokenSpan(wordForms);
+	}
+	
+	public static KafTokenSpan getKafTokenSpan(List<WF>kafWordForms){
+		WF first=kafWordForms.get(0);
+		WF last=kafWordForms.get(kafWordForms.size()-1);
+		System.out.println("Getting KafTokenSpan for WF:[id:"+first.getId()+":"+first.getForm()+"] and [id:"+last.getId()+":"+last.getForm()+"]");
+		return new KafTokenSpan(getIdNumberFromId(first.getId())-1, getIdNumberFromId(last.getId())-1);
+	}
+	
+	
+	
+	protected static int getIdNumberFromId(String id){
+		return Integer.parseInt(id.substring(1));
 	}
 }

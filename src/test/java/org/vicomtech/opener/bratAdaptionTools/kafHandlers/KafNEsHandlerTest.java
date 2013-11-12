@@ -32,13 +32,13 @@ public static final String KAF_DOC_PATH2="/kaf-example.xml";
 	public void testHandle() {
 		List<KafTokenSpan> tokenSpans = kafNEsHandler.handle(kafDocument);
 		assertEquals(1,tokenSpans.size());
-		assertEquals(4, tokenSpans.get(0).getInitialToken());
-		assertEquals(4, tokenSpans.get(0).getFinalToken());
+		assertEquals(3, tokenSpans.get(0).getInitialToken());
+		assertEquals(3, tokenSpans.get(0).getFinalToken());
 		
 		tokenSpans = kafNEsHandler.handle(kafDocument2);
 		assertEquals(1,tokenSpans.size());
-		assertEquals(4, tokenSpans.get(0).getInitialToken());
-		assertEquals(4, tokenSpans.get(0).getFinalToken());
+		assertEquals(3, tokenSpans.get(0).getInitialToken());
+		assertEquals(3, tokenSpans.get(0).getFinalToken());
 	}
 
 }

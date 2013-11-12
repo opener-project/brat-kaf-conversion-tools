@@ -1,10 +1,12 @@
 package org.vicomtech.opener.bratAdaptionTools.model;
 
+import ixa.kaflib.WF;
+
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import eu.openerproject.kaf.layers.KafWordForm;
+//import eu.openerproject.kaf.layers.KafWordForm;
 
 public class WhitespaceToken {
 	private int start;
@@ -64,15 +66,15 @@ public class WhitespaceToken {
 	
 	public static String generateWhiteSpaceTokenizedText(KafDocument kafDocument){
 		StringBuffer sb=new StringBuffer();
-		List<KafWordForm>kafWordForms=kafDocument.getWordList();
+		List<WF>kafWordForms=kafDocument.getWordList();
 		int currentSentence=1;
-		for(KafWordForm kafWordForm:kafWordForms){
+		for(WF kafWordForm:kafWordForms){
 			if(kafWordForm.getSent()!=currentSentence){
 				sb.deleteCharAt(sb.length()-1);
 				sb.append("\n");
 				currentSentence=kafWordForm.getSent();
 			}
-			sb.append(kafWordForm.getWordform());
+			sb.append(kafWordForm.getForm());
 			sb.append(" ");
 		}
 		return sb.toString().trim();
