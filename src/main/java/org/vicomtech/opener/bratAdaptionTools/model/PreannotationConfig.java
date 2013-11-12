@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.vicomtech.opener.bratAdaptionTools.kafHandlers.KafEntityTokenExtractorHandler;
 import org.vicomtech.opener.bratAdaptionTools.kafHandlers.KafNEsHandler;
+import org.vicomtech.opener.bratAdaptionTools.kafHandlers.KafNPHandler;
 import org.vicomtech.opener.bratAdaptionTools.kafHandlers.KafPronounHandler;
 
 import com.google.common.collect.Lists;
@@ -18,6 +19,7 @@ public class PreannotationConfig {
 		preannotationHandlers=Lists.newArrayList();
 		preannotationHandlers.add(new KafPronounHandler());
 		preannotationHandlers.add(new KafNEsHandler());
+		preannotationHandlers.add(new KafNPHandler());
 		return preannotationHandlers;
 	}
 	

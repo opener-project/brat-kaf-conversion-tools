@@ -58,6 +58,13 @@
 <message name="opinionDetectResponse">
 <part name="return" type="xsd:string"/>
 </message>
+<message name="parseConstituents">
+<part name="arg0" type="xsd:string"/>
+<part name="arg1" type="xsd:string"/>
+</message>
+<message name="parseConstituentsResponse">
+<part name="return" type="xsd:string"/>
+</message>
 <portType name="OpenerService">
 <operation name="analyzeText" parameterOrder="arg0 arg1">
 <input wsam:Action="http://remoteservice.vicomtech.org/OpenerService/analyzeTextRequest" message="tns:analyzeText"/>
@@ -90,6 +97,10 @@
 <operation name="opinionDetect" parameterOrder="arg0 arg1">
 <input wsam:Action="http://remoteservice.vicomtech.org/OpenerService/opinionDetectRequest" message="tns:opinionDetect"/>
 <output wsam:Action="http://remoteservice.vicomtech.org/OpenerService/opinionDetectResponse" message="tns:opinionDetectResponse"/>
+</operation>
+<operation name="parseConstituents" parameterOrder="arg0 arg1">
+<input wsam:Action="http://remoteservice.vicomtech.org/OpenerService/parseConstituentsRequest" message="tns:parseConstituents"/>
+<output wsam:Action="http://remoteservice.vicomtech.org/OpenerService/parseConstituentsResponse" message="tns:parseConstituentsResponse"/>
 </operation>
 </portType>
 <binding name="OpenerServiceImplPortBinding" type="tns:OpenerService">
@@ -158,6 +169,15 @@
 </output>
 </operation>
 <operation name="opinionDetect">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal" namespace="http://remoteservice.vicomtech.org/"/>
+</input>
+<output>
+<soap:body use="literal" namespace="http://remoteservice.vicomtech.org/"/>
+</output>
+</operation>
+<operation name="parseConstituents">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal" namespace="http://remoteservice.vicomtech.org/"/>

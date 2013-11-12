@@ -32,6 +32,9 @@ public class BratAnnotationGenerationTestingMain {
 //		}
 		KafToBratConverter kafToBratConverter=new KafToBratConverter();
 		for(File rawTextFile:dirWithTexts.listFiles()){
+			if(rawTextFile.isDirectory()){
+				continue;
+			}
 			String textContent=FileUtils.readFileToString(rawTextFile, "UTF-8");
 			String kaf=analyzeRawText(textContent);
 			KafDocument kafDocument=KafDocument.parseKafDocument(new ByteArrayInputStream(kaf.getBytes()));
@@ -62,6 +65,7 @@ public class BratAnnotationGenerationTestingMain {
 		String kaf=openerService.tokenize(text, lang);
 		kaf=openerService.postag(kaf, lang);
 		kaf=openerService.nerc(kaf, lang);
+		kaf=openerService.parseConstituents(kaf, lang);
 		return kaf;
 	}
 
