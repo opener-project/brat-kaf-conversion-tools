@@ -7,8 +7,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.vicomtech.opener.bratAdaptionTools.annHandlers.AnnotationHandler;
-import org.vicomtech.opener.bratAdaptionTools.annHandlers.AnnotationHandlerDispatcher;
+import org.vicomtech.opener.bratAdaptionTools.bratAnnHandlers.AnnotationHandler;
+import org.vicomtech.opener.bratAdaptionTools.bratAnnHandlers.AnnotationHandlerDispatcher;
 import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation;
 import org.vicomtech.opener.bratAdaptionTools.model.WhitespaceToken;
 

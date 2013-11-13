@@ -38,10 +38,14 @@ public class KafToBratConverterTest {
 		String bratAnnotationFileString=kafToBratConverter.generateBratAnnotation(kafDocument, preAnnotationConfig);
 		assertNotNull(bratAnnotationFileString);
 		System.out.println(bratAnnotationFileString);
+		String expected="T1	markable 39 41	it\nT2	markable 12 21	Amsterdam";
+		assertEquals(expected, bratAnnotationFileString);
 		System.out.println("===============");
 		String bratAnnotationFileString2=kafToBratConverter.generateBratAnnotation(kafDocument2, preAnnotationConfig);
 		assertNotNull(bratAnnotationFileString2);
 		System.out.println(bratAnnotationFileString2);
+		String expected2="T1	markable 12 16	Pisa";
+		assertEquals(expected2, bratAnnotationFileString2);
 		
 	}
 

@@ -1,4 +1,4 @@
-package org.vicomtech.opener.bratAdaptionTools.kafHandlers;
+package org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers;
 
 import ixa.kaflib.Term;
 import ixa.kaflib.WF;
@@ -14,7 +14,7 @@ import com.google.common.collect.Lists;
 //import eu.openerproject.kaf.layers.KafTerm;
 //import eu.openerproject.kaf.layers.KafWordForm;
 
-public class KafPronounHandler implements KafEntityTokenExtractorHandler{
+public class KafPronounHandler implements KafToBratHandler{
 
 	private String postagCode="Q";
 	
@@ -61,6 +61,7 @@ public class KafPronounHandler implements KafEntityTokenExtractorHandler{
 		return term.getWFs();
 	//	return kafWordFormsForTheTerm;
 	}
+
 	
 	
 	

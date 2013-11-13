@@ -55,7 +55,7 @@ public class BratAnnotation {
 	private int[] offsets = new int[] { -1, -1 };
 	private List<String> involvedEntities=Lists.newArrayList();
 	private String text;
-	private int[] kafTokenSpan = new int[] { -1, -1 };;
+	private int[] kafTokenSpan = new int[] { -1, -1 };
 	private Reference reference;
 
 	public String getId() {
@@ -146,4 +146,13 @@ public class BratAnnotation {
 		this.reference = reference;
 	}
 
+	public static BratAnnotation selectBratAnnotationById(String id,List<BratAnnotation>bratAnnotations){
+		for(BratAnnotation bratAnnotation:bratAnnotations){
+			if(bratAnnotation.getId().equals(id)){
+				return bratAnnotation;
+			}
+		}
+		return null;
+	}
+	
 }

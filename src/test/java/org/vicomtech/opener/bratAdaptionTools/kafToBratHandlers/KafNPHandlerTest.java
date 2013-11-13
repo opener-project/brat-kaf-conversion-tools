@@ -1,4 +1,4 @@
-package org.vicomtech.opener.bratAdaptionTools.kafHandlers;
+package org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers.KafNPHandler;
 import org.vicomtech.opener.bratAdaptionTools.model.KafDocument;
 import org.vicomtech.opener.bratAdaptionTools.model.KafTokenSpan;
 

@@ -1,4 +1,4 @@
-package org.vicomtech.opener.bratAdaptionTools.annHandlers;
+package org.vicomtech.opener.bratAdaptionTools.bratAnnHandlers;
 
 import java.util.Map;
 

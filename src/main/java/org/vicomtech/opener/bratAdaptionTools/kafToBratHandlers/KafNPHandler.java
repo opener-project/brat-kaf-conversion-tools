@@ -1,4 +1,4 @@
-package org.vicomtech.opener.bratAdaptionTools.kafHandlers;
+package org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers;
 
 import ixa.kaflib.NonTerminal;
 import ixa.kaflib.Term;
@@ -13,7 +13,7 @@ import org.vicomtech.opener.bratAdaptionTools.model.KafTokenSpan;
 
 import com.google.common.collect.Lists;
 
-public class KafNPHandler implements KafEntityTokenExtractorHandler{
+public class KafNPHandler implements KafToBratHandler{
 
 	@Override
 	public List<KafTokenSpan> handle(KafDocument kafDoc) {
@@ -70,5 +70,6 @@ public class KafNPHandler implements KafEntityTokenExtractorHandler{
 	protected boolean isNP(NonTerminal nonTerminal){
 		return nonTerminal.getLabel().startsWith("NP");
 	}
+
 	
 }

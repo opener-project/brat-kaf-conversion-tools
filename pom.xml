@@ -37,11 +37,11 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
+<!-- 		<dependency>
 			<groupId>eu.openerproject.kaf</groupId>
 			<artifactId>opener-kaf-parser</artifactId>
 			<version>2.3</version>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>com.google.guava</groupId>

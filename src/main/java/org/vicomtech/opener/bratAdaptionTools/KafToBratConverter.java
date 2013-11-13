@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.vicomtech.opener.bratAdaptionTools.BratAnnotationsManager.AnnotationIdType;
-import org.vicomtech.opener.bratAdaptionTools.annHandlers.AnnotationHandler;
-import org.vicomtech.opener.bratAdaptionTools.annHandlers.AnnotationHandlerDispatcher;
-import org.vicomtech.opener.bratAdaptionTools.kafHandlers.KafEntityTokenExtractorHandler;
+import org.vicomtech.opener.bratAdaptionTools.bratAnnHandlers.AnnotationHandler;
+import org.vicomtech.opener.bratAdaptionTools.bratAnnHandlers.AnnotationHandlerDispatcher;
+import org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers.KafToBratHandler;
 import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation;
 import org.vicomtech.opener.bratAdaptionTools.model.KafDocument;
 import org.vicomtech.opener.bratAdaptionTools.model.KafTokenSpan;
@@ -25,7 +25,7 @@ public class KafToBratConverter {
 	public String generateBratAnnotation(KafDocument kafDocument, PreannotationConfig preAnnotationConfig){
 		
 		List<KafTokenSpan>kafTokenSpans=Lists.newArrayList();
-		for(KafEntityTokenExtractorHandler handler:preAnnotationConfig.getPreannotationHandlers()){
+		for(KafToBratHandler handler:preAnnotationConfig.getPreannotationHandlers()){
 			kafTokenSpans.addAll(handler.handle(kafDocument));
 		}
 		kafTokenSpans=KafTokenSpan.mergeKafTokenSpans(kafTokenSpans);

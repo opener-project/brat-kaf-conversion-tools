@@ -1,4 +1,4 @@
-package org.vicomtech.opener.bratAdaptionTools.kafHandlers;
+package org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers;
 
 import ixa.kaflib.Entity;
 import ixa.kaflib.Term;
@@ -10,7 +10,7 @@ import org.vicomtech.opener.bratAdaptionTools.model.KafTokenSpan;
 
 import com.google.common.collect.Lists;
 
-public class KafNEsHandler implements KafEntityTokenExtractorHandler{
+public class KafNEsHandler implements KafToBratHandler{
 
 	@Override
 	public List<KafTokenSpan> handle(KafDocument kafDoc) {
