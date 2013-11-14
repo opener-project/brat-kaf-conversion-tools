@@ -2,16 +2,19 @@ package org.vicomtech.opener.bratAdaptionTools.bratToKafHandlers;
 
 import java.util.Map;
 
+import org.vicomtech.opener.bratAdaptionTools.ConfigManager;
 import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation;
 
 import com.google.common.collect.Maps;
 
 public class BratToKafHandlersDispatcher {
 
-	public static final String NE_KEY="";
-	public static final String COREF_KEY="";
+	public static final String NE_KEY="NE";
+	public static final String COREF_KEY="COREF";
+	public static final String DUMMY_KEY="DUMMY";
 	
 	private static BratToKafHandlersDispatcher INSTANCE;
+	private static ConfigManager configManager=ConfigManager.getConfigManager();
 	
 	private Map<String,BratToKafHandler>handlers;
 	
@@ -30,6 +33,7 @@ public class BratToKafHandlersDispatcher {
 		handlers=Maps.newHashMap();
 		handlers.put(NE_KEY, new BratToKafNEHandler());
 		handlers.put(COREF_KEY, new BratToKafCorefHandler());
+		handlers.put(DUMMY_KEY, new BratToKafDummyHandler());
 	}
 	
 	public BratToKafHandler getHandler(BratAnnotation bratAnnotation){
@@ -43,7 +47,21 @@ public class BratToKafHandlersDispatcher {
 	
 	protected String inferKey(BratAnnotation bratAnnotation){
 		//TODO Configure something... regarding annotation type "PERSON", etc., (to avoid adding "markables" or other stuff)
-		return "";
+		//this must return one of the above difined keys (NE_KEY, COREF_KEY...)
+		String[] neTypes=configManager.getValuesForProperty("named_entity_types");
+		String[] corefTypes=configManager.getValuesForProperty("coref_relation_types");
+		String annotationType=bratAnnotation.getType();
+		for(String neType:neTypes){
+			if(neType.equalsIgnoreCase(annotationType)){
+				return NE_KEY;
+			}
+		}
+		for(String corefType:corefTypes){
+			if(corefType.equalsIgnoreCase(annotationType)){
+				return COREF_KEY;
+			}
+		}
+		return DUMMY_KEY;
 	}
 	
 }

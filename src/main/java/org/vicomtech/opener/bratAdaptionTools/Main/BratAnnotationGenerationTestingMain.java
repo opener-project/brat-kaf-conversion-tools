@@ -1,7 +1,7 @@
 package org.vicomtech.opener.bratAdaptionTools.Main;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.xml.ws.BindingProvider;
@@ -17,7 +17,8 @@ import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerServiceImplService
 public class BratAnnotationGenerationTestingMain {
 
 	public static final String DIR_WITH_RAW_FILES="KAF_TO_BRAT_TESTS";
-	public static final String DIR_FOR_RESULTS="KAF_TO_BRAT_TESTS/RESULTS";
+	public static final String DIR_FOR_BRAT_RESULTS="KAF_TO_BRAT_TESTS/BRAT_RESULTS";
+	public static final String DIR_FOR_KAFS="KAF_TO_BRAT_TESTS/KAFS";
 	
 	private static OpenerService openerService=getOpenerService();
 	
@@ -37,11 +38,14 @@ public class BratAnnotationGenerationTestingMain {
 			}
 			String textContent=FileUtils.readFileToString(rawTextFile, "UTF-8");
 			String kaf=analyzeRawText(textContent);
-			KafDocument kafDocument=KafDocument.parseKafDocument(new ByteArrayInputStream(kaf.getBytes()));
+			File kafFile=new File(DIR_FOR_KAFS+"/"+rawTextFile.getName().substring(0, rawTextFile.getName().length()-4)+".kaf");
+			kafFile.createNewFile();
+			FileUtils.write(kafFile, kaf,false);
+			KafDocument kafDocument=KafDocument.parseKafDocument(new FileInputStream(kafFile));
 			String bratAnn=kafToBratConverter.generateBratAnnotation(kafDocument, new PreannotationConfig());
 			String whiteSpaceTokenizedText=WhitespaceToken.generateWhiteSpaceTokenizedText(kafDocument);
-			File whiteSpaceTextResultFile=new File(DIR_FOR_RESULTS+"/"+rawTextFile.getName()+".txt");
-			File bratAnnResultFile=new File(DIR_FOR_RESULTS+"/"+rawTextFile.getName()+".ann");
+			File whiteSpaceTextResultFile=new File(DIR_FOR_BRAT_RESULTS+"/"+rawTextFile.getName().substring(0, rawTextFile.getName().length()-4)+".txt");
+			File bratAnnResultFile=new File(DIR_FOR_BRAT_RESULTS+"/"+rawTextFile.getName().substring(0, rawTextFile.getName().length()-4)+".ann");
 			FileUtils.write(whiteSpaceTextResultFile, whiteSpaceTokenizedText);
 			FileUtils.write(bratAnnResultFile, bratAnn);
 		}

@@ -146,8 +146,18 @@ public class KafDocument{
 				throw new RuntimeException("getNextId not implemented for this kind of objects");
 			}
 			int idNum=Integer.parseInt(id.substring(1));
-			return idNum++;
+			idNum++;
+			return idNum;
 		}
+	}
+	
+	public void removeAllExceptTokensAndTermLayers(){
+		kaf.getEntities().clear();
+		kaf.getDeps().clear();
+		kaf.getConstituents().clear();
+		kaf.getCorefs().clear();
+		kaf.getChunks().clear();
+		kaf.getOpinions().clear();
 	}
 	
 //	private void playingAround(){
