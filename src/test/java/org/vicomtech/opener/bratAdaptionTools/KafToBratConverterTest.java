@@ -34,7 +34,7 @@ public class KafToBratConverterTest {
 
 	@Test
 	public void testGenerateBratAnnotation() {
-		PreannotationConfig preAnnotationConfig=new PreannotationConfig();
+		PreannotationConfig preAnnotationConfig=PreannotationConfig.getPreannotationConfig();
 		String bratAnnotationFileString=kafToBratConverter.generateBratAnnotation(kafDocument, preAnnotationConfig);
 		assertNotNull(bratAnnotationFileString);
 		System.out.println(bratAnnotationFileString);

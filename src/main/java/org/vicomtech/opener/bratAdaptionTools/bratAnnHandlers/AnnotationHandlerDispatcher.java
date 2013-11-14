@@ -32,6 +32,7 @@ public class AnnotationHandlerDispatcher {
 	}
 	
 	public AnnotationHandler getAnnotationHandler(String bratAnnotationLine){
+		System.out.println("Dispatching hanlder for: "+bratAnnotationLine);
 		String key=bratAnnotationLine.substring(0,1);
 		return getAnnotationHandlerByKey(key);
 	}

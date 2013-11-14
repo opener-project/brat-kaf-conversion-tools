@@ -42,7 +42,7 @@ public class BratAnnotationGenerationTestingMain {
 			kafFile.createNewFile();
 			FileUtils.write(kafFile, kaf,false);
 			KafDocument kafDocument=KafDocument.parseKafDocument(new FileInputStream(kafFile));
-			String bratAnn=kafToBratConverter.generateBratAnnotation(kafDocument, new PreannotationConfig());
+			String bratAnn=kafToBratConverter.generateBratAnnotation(kafDocument, PreannotationConfig.getEmptyPreannotationConfig());
 			String whiteSpaceTokenizedText=WhitespaceToken.generateWhiteSpaceTokenizedText(kafDocument);
 			File whiteSpaceTextResultFile=new File(DIR_FOR_BRAT_RESULTS+"/"+rawTextFile.getName().substring(0, rawTextFile.getName().length()-4)+".txt");
 			File bratAnnResultFile=new File(DIR_FOR_BRAT_RESULTS+"/"+rawTextFile.getName().substring(0, rawTextFile.getName().length()-4)+".ann");

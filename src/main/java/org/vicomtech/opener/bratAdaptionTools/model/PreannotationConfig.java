@@ -14,12 +14,25 @@ public class PreannotationConfig {
 	
 	private List<KafToBratHandler>preannotationHandlers;
 	
-	public List<KafToBratHandler> getPreannotationHandlers(){
-		//Hardcoded for now, but this could be somewhat read from an external configuration
+	private PreannotationConfig(boolean fill){
 		preannotationHandlers=Lists.newArrayList();
-		preannotationHandlers.add(new KafPronounHandler());
-		preannotationHandlers.add(new KafNEsHandler());
-		preannotationHandlers.add(new KafNPHandler());
+		if(fill){
+			//Hardcoded for now, but this could be somewhat read from an external configuration
+			preannotationHandlers.add(new KafPronounHandler());
+			preannotationHandlers.add(new KafNEsHandler());
+			preannotationHandlers.add(new KafNPHandler());
+		}
+	}
+	
+	public static PreannotationConfig getEmptyPreannotationConfig(){
+		return new PreannotationConfig(false);
+	}
+	
+	public static PreannotationConfig getPreannotationConfig(){
+		return new PreannotationConfig(true);
+	}
+	
+	public List<KafToBratHandler> getPreannotationHandlers(){
 		return preannotationHandlers;
 	}
 	

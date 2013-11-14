@@ -16,7 +16,7 @@ public class NormalizationHandler implements AnnotationHandler{
 		String annotationId=tabSeparatedColumns[0];
 		String annotationInfo=tabSeparatedColumns[1];
 		String annotationType=getAnnotationType(annotationId, annotationInfo);
-		String annotationText=tabSeparatedColumns[2];
+		String annotationText=tabSeparatedColumns.length==3?tabSeparatedColumns[2]:"";
 		Reference reference=getReference(annotationId, annotationInfo);
 		BratAnnotation bratAnnotation=new BratAnnotation();
 		bratAnnotation.setId(annotationId);

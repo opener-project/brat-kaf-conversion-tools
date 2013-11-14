@@ -43,8 +43,8 @@ public class BratAnnotationFileParser {
 
 		String bratTxtDoc=readFile(bratTxtDocIs);
 		String bratAnnDoc=readFile(bratAnnDocIs);
-		List<WhitespaceToken>whitespaceTokenList=WhitespaceToken.parseText(bratTxtDoc);
-		List<BratAnnotation> bratAnnotations = parseBratAnnFile(bratAnnDoc);
+		List<WhitespaceToken>whitespaceTokenList=WhitespaceToken.parseText(bratTxtDoc.trim());
+		List<BratAnnotation> bratAnnotations = parseBratAnnFile(bratAnnDoc.trim());
 		mapAnnotationsToTokens(bratAnnotations, whitespaceTokenList);
 		return bratAnnotations;
 	}
@@ -58,8 +58,11 @@ public class BratAnnotationFileParser {
 	}
 
 	protected List<BratAnnotation> parseBratAnnFile(String bratAnnDoc){
-		String[]bratAnnFileLines=bratAnnDoc.split("\n");
 		List<BratAnnotation>bratAnnotations=Lists.newArrayList();
+		if(bratAnnDoc.trim().length()==0){
+			return bratAnnotations;
+		}
+		String[]bratAnnFileLines=bratAnnDoc.split("\n");
 		for(String bratAnnFileLine:bratAnnFileLines){
 			BratAnnotation bratAnnotation=parseBratAnnotation(bratAnnFileLine.trim());
 			bratAnnotations.add(bratAnnotation);
