@@ -43,6 +43,7 @@ public class BratToKafReconversionTestMain {
 					"-d-kaf  --> Path to the root directory to write the KAF conversions (the input hierarchy will be maintained)";
 			if(args.length==1 && args[0].equals("-h")){
 				System.out.println(helpString);
+				return;
 			}else if(args.length==4){
 				if(args[0].equalsIgnoreCase("-d-brat")){
 					pathToBratDocs=args[1];
@@ -54,6 +55,7 @@ public class BratToKafReconversionTestMain {
 			if(pathToBratDocs.trim().length()==0 || pathToKafDocs.trim().length()==0){
 				System.out.println("ERROR: Incorrect parameters");
 				System.out.println(helpString);
+				return;
 			}else{
 				actualExecution(pathToBratDocs,pathToKafDocs);
 			}
@@ -67,14 +69,28 @@ public class BratToKafReconversionTestMain {
 		File bratConvertibleCollectionsRoot=new File(pathForBratDocs);
 		List<String>pathsToBratTxtFile=getAllBratTxtFilePathsRecursively(bratConvertibleCollectionsRoot);
 		for(String pathToBratTxtFile:pathsToBratTxtFile){
-			String pathToCorrespondingKafFile=pathToBratTxtFile.replace(pathForBratDocs, pathForKafDocs);
-			String kafString=bratToKafConverter.convertBratToKaf(pathToBratTxtFile, pathToCorrespondingKafFile);
+			String pathToCorrespondingKafFile=pathToBratTxtFile.replace(pathForBratDocs, pathForKafDocs).replace(".txt", ".kaf");
+			String pathToCorrespondingAnnFile=pathToBratTxtFile.replace(".txt", ".ann");
 			File kafFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingKafFile);
-			try {
-				FileUtils.write(kafFile, kafString);
-			} catch (IOException e) {
-				System.err.println("ERROR writing KAF file: "+e.getMessage());
+			File annFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingAnnFile);
+			if (annFile.lastModified() > kafFile.lastModified()) {
+				System.out.println("Going to convert BRAT to KAF: bratTxtPath:"
+						+ pathToBratTxtFile + " pathToKaf: "
+						+ pathToCorrespondingKafFile);
+				String kafString = bratToKafConverter.convertBratToKaf(
+						pathToBratTxtFile, pathToCorrespondingKafFile);
+				// File
+				// kafFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingKafFile);
+				try {
+					FileUtils.write(kafFile, kafString);
+				} catch (IOException e) {
+					System.err.println("ERROR writing KAF file: "
+							+ e.getMessage());
+				}
+			}else{
+				System.out.println("KAF ("+kafFile.getPath()+") is up to date");
 			}
+			
 		}
 		
 	}

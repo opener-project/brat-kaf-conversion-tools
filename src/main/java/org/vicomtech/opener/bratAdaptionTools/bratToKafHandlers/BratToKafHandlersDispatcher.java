@@ -12,6 +12,7 @@ public class BratToKafHandlersDispatcher {
 	public static final String NE_KEY="NE";
 	public static final String COREF_KEY="COREF";
 	public static final String DUMMY_KEY="DUMMY";
+	public static final String NEL_KEY="NEL";
 	
 	private static BratToKafHandlersDispatcher INSTANCE;
 	private static ConfigManager configManager=ConfigManager.getConfigManager();
@@ -34,6 +35,7 @@ public class BratToKafHandlersDispatcher {
 		handlers.put(NE_KEY, new BratToKafNEHandler());
 		handlers.put(COREF_KEY, new BratToKafCorefHandler());
 		handlers.put(DUMMY_KEY, new BratToKafDummyHandler());
+		handlers.put(NEL_KEY, new BratToKafNELHandler());
 	}
 	
 	public BratToKafHandler getHandler(BratAnnotation bratAnnotation){
@@ -60,6 +62,9 @@ public class BratToKafHandlersDispatcher {
 			if(corefType.equalsIgnoreCase(annotationType)){
 				return COREF_KEY;
 			}
+		}
+		if(bratAnnotation.getId().startsWith("N")){
+			return NEL_KEY;
 		}
 		return DUMMY_KEY;
 	}

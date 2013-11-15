@@ -2,7 +2,8 @@
 .classpath
 .project
 target/
-dependency_reduced_pom.xml
+dependency-reduced-pom.xml
 **ws/
 KAF_TO_BRAT_TESTS/
 *.properties
+*~

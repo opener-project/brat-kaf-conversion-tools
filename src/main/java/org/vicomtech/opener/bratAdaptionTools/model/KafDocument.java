@@ -2,6 +2,7 @@ package org.vicomtech.opener.bratAdaptionTools.model;
 
 import ixa.kaflib.Coref;
 import ixa.kaflib.Entity;
+import ixa.kaflib.ExternalRef;
 import ixa.kaflib.KAFDocument;
 import ixa.kaflib.Target;
 //import ixa.kaflib.NonTerminal;
@@ -18,6 +19,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
+
+import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation.Reference;
 
 import com.google.common.collect.Lists;
 //import com.google.common.collect.Lists;
@@ -101,6 +104,21 @@ public class KafDocument{
 		}
 		List<Term>terms=this.getTermPointingToWordForm(requiredWordForms);
 		return terms;
+	}
+	
+	public Entity getEntityForATokenSpan(int[] kafTokenSpan){
+		List<Term>terms=getTermsForATokenSpan(kafTokenSpan);
+		for(Entity entity:kaf.getEntities()){
+			if(entity.getTerms().equals(terms)){
+				return entity;
+			}
+		}
+		return null;
+	}
+	
+	public ExternalRef createExternalRef(BratAnnotation bratAnnotation){
+		Reference reference=bratAnnotation.getReference();
+		return kaf.createExternalRef(reference.getKnowledgeBaseName(), reference.getResourceId());
 	}
 	
 	public List<Term> getTermPointingToWordForm(List<WF> wordForms){

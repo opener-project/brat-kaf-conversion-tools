@@ -66,7 +66,7 @@ public class ConfigManager {
 	
 	public String[] getValuesForProperty(String property){
 		String value = (String) properties.get(property);
-		System.out.println("ConfigManager reading property:"+property+" value:"+value);
+		//System.out.println("ConfigManager reading property:"+property+" value:"+value);
 		String[]values=value.split(",");
 		return values;
 	}
