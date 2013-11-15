@@ -1,9 +1,9 @@
 package org.vicomtech.opener.bratAdaptionTools.Main;
 
 import java.io.File;
-//import java.io.FileInputStream;
-//import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
+//import java.util.Map;
 //import java.io.InputStream;
 
 import javax.xml.ws.BindingProvider;
@@ -12,6 +12,11 @@ import org.apache.commons.io.FileUtils;
 import org.vicomtech.opener.bratAdaptionTools.BratToKafConverter;
 import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerService;
 import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerServiceImplService;
+
+import com.google.common.collect.Lists;
+
+//import com.google.common.collect.Maps;
+
 import static org.vicomtech.opener.bratAdaptionTools.Main.BratAnnotationGenerationTestingMain.*;
 
 public class BratToKafReconversionTestMain {
@@ -23,6 +28,89 @@ public class BratToKafReconversionTestMain {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
+//		Map<String,String>params=Maps.newHashMap();
+//		for(String arg:args){
+//			
+//		}
+		if(args.length==0){
+			testingExecution();
+		}else{
+			String pathToBratDocs="";
+			String pathToKafDocs="";
+			String helpString="Parameter syntax: [-h] -d-brat PATH_TO_BRAT_COLLECTIONS -d-kaf PATH_TO_KAF_OUTPUT_FOLDER\n" +
+					"-h      --> Displays this help message\n" +
+					"-d-brat --> Path to the root directory containing the convertible brat files\n" +
+					"-d-kaf  --> Path to the root directory to write the KAF conversions (the input hierarchy will be maintained)";
+			if(args.length==1 && args[0].equals("-h")){
+				System.out.println(helpString);
+			}else if(args.length==4){
+				if(args[0].equalsIgnoreCase("-d-brat")){
+					pathToBratDocs=args[1];
+				}
+				if(args[2].equalsIgnoreCase("-d-kaf")){
+					pathToKafDocs=args[3];
+				}
+			}
+			if(pathToBratDocs.trim().length()==0 || pathToKafDocs.trim().length()==0){
+				System.out.println("ERROR: Incorrect parameters");
+				System.out.println(helpString);
+			}else{
+				actualExecution(pathToBratDocs,pathToKafDocs);
+			}
+		}
+		
+		
+	}
+	
+	protected static void actualExecution(String pathForBratDocs,String pathForKafDocs){
+		BratToKafConverter bratToKafConverter=new BratToKafConverter();
+		File bratConvertibleCollectionsRoot=new File(pathForBratDocs);
+		List<String>pathsToBratTxtFile=getAllBratTxtFilePathsRecursively(bratConvertibleCollectionsRoot);
+		for(String pathToBratTxtFile:pathsToBratTxtFile){
+			String pathToCorrespondingKafFile=pathToBratTxtFile.replace(pathForBratDocs, pathForKafDocs);
+			String kafString=bratToKafConverter.convertBratToKaf(pathToBratTxtFile, pathToCorrespondingKafFile);
+			File kafFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingKafFile);
+			try {
+				FileUtils.write(kafFile, kafString);
+			} catch (IOException e) {
+				System.err.println("ERROR writing KAF file: "+e.getMessage());
+			}
+		}
+		
+	}
+	
+	protected static List<String>getAllBratTxtFilePathsRecursively(File originDir){
+		List<String>result=Lists.newArrayList();
+		File[]files=originDir.listFiles();
+		for(File f:files){
+			if(f.isDirectory()){
+				result.addAll(getAllBratTxtFilePathsRecursively(f));
+			}else if(f.getName().endsWith(".txt")){
+				result.add(f.getAbsolutePath());
+			}
+		}
+		return result;
+	}
+	
+	protected static File retrieveOrCreateFileAndTheRequiredDirs(String filePath) {
+		try {
+			File f = new File(filePath);
+			if (f.exists()) {
+				return f;
+			} else {
+				File fDir = new File(filePath.substring(0,
+						filePath.lastIndexOf("/")));
+				fDir.mkdirs();
+
+				f.createNewFile();
+				return f;
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	protected static void testingExecution() throws IOException{
 		BratToKafConverter bratToKafConverter=new BratToKafConverter();
 		File dirWithTexts=new File(DIR_FOR_BRAT_RESULTS);
 		for(File rawTextFile:dirWithTexts.listFiles()){
@@ -38,15 +126,7 @@ public class BratToKafReconversionTestMain {
 			}
 			
 		}
-		
-		
-		//InputStream bratTxtIs=new FileInputStream(new File());
-		
-	//	bratToKafConverter.convertBratToKaf(bratTxtFileInputStream, annFileInputStream, kafFileInputStream);
-		
 	}
-	
-	
 	
 	protected static OpenerService getOpenerService(){
 		OpenerServiceImplService serviceImpl = new OpenerServiceImplService();

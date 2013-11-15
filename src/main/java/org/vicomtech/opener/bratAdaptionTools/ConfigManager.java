@@ -13,6 +13,9 @@ public class ConfigManager {
 
 	private static final String PROPERTIES_LOCATION = "annotation-mapping-config.properties";
 
+	public static final String NAMED_ENTITY_TYPES_PROP="named_entity_types";
+	public static final String COREF_RELATION_TYPES_PROP="coref_relation_types";
+	
 	private Properties properties=new Properties();
 
 	private static ConfigManager INSTANCE;

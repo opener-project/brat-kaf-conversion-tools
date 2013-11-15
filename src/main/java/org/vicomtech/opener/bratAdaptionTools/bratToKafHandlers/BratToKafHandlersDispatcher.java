@@ -48,8 +48,8 @@ public class BratToKafHandlersDispatcher {
 	protected String inferKey(BratAnnotation bratAnnotation){
 		//TODO Configure something... regarding annotation type "PERSON", etc., (to avoid adding "markables" or other stuff)
 		//this must return one of the above difined keys (NE_KEY, COREF_KEY...)
-		String[] neTypes=configManager.getValuesForProperty("named_entity_types");
-		String[] corefTypes=configManager.getValuesForProperty("coref_relation_types");
+		String[] neTypes=configManager.getValuesForProperty(ConfigManager.NAMED_ENTITY_TYPES_PROP);
+		String[] corefTypes=configManager.getValuesForProperty(ConfigManager.COREF_RELATION_TYPES_PROP);
 		String annotationType=bratAnnotation.getType();
 		for(String neType:neTypes){
 			if(neType.equalsIgnoreCase(annotationType)){
