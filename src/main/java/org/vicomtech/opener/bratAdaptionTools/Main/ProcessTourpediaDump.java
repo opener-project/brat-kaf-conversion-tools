@@ -1,5 +1,7 @@
 package org.vicomtech.opener.bratAdaptionTools.Main;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,7 +21,7 @@ public class ProcessTourpediaDump {
 		if(args.length==0){
 			URL url=new URL("http://wafi.iit.cnr.it/openervm/API/getBratForVenues.php");
 			is=url.openStream();
-			processTourpediaDump(is, System.out);
+			processTourpediaDump(is, new FileOutputStream(new File("tourpedia-fb.txt")));
 		}else{
 			System.err.println("Not implemented");
 		}
@@ -56,7 +58,7 @@ public class ProcessTourpediaDump {
 		sb.append("\t");
 		sb.append(nameCol.replace("name:", "name:Name:"));
 		sb.append("\t");
-		sb.append(descriptionCol.replace("attr:", "attr:Description:"));
+		sb.append(descriptionCol.replace("\t", "  ").replace("attr:", "attr:Address:"));
 		sb.append("\t");
 		sb.append(urlCol.replace("info:", "attr:Web page:"));
 		return sb.toString();
