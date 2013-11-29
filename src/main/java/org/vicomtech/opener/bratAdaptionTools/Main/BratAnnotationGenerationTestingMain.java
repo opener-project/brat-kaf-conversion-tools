@@ -37,7 +37,9 @@ public class BratAnnotationGenerationTestingMain {
 				continue;
 			}
 			String textContent=FileUtils.readFileToString(rawTextFile, "UTF-8");
+			System.out.println("Processing file: "+rawTextFile.getName());
 			String kaf=analyzeRawText(textContent);
+			System.out.println("Resulting kaf start: "+kaf.substring(0, Math.min(50, kaf.length())));
 			File kafFile=new File(DIR_FOR_KAFS+"/"+rawTextFile.getName().substring(0, rawTextFile.getName().length()-4)+".kaf");
 			kafFile.createNewFile();
 			FileUtils.write(kafFile, kaf,false);
@@ -68,8 +70,8 @@ public class BratAnnotationGenerationTestingMain {
 		String lang=openerService.identifyLanguage(text);
 		String kaf=openerService.tokenize(text, lang);
 		kaf=openerService.postag(kaf, lang);
-		kaf=openerService.nerc(kaf, lang);
-		kaf=openerService.parseConstituents(kaf, lang);
+		//kaf=openerService.nerc(kaf, lang);
+		//kaf=openerService.parseConstituents(kaf, lang);
 		return kaf;
 	}
 
