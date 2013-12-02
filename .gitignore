@@ -8,3 +8,8 @@ KAF_TO_BRAT_TESTS/
 *.properties
 *~
 tourpedia-fb.txt
+bratCollectionsForAnnotation/
+bratCollectionsForAnnotation_2/
+reviewsForAnnotations/
+reviewsForAnnotations_KAF/
+reviewsForAnnotations_KAF_2/
