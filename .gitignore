@@ -8,6 +8,8 @@ KAF_TO_BRAT_TESTS/
 *.properties
 *~
 tourpedia-fb.txt
+tourpedia-locations.txt
+tourpedia-venues.txt
 bratCollectionsForAnnotation/
 bratCollectionsForAnnotation_2/
 reviewsForAnnotations/
