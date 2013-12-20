@@ -1,5 +1,6 @@
 package org.vicomtech.opener.annotationReviews;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -27,7 +28,7 @@ import com.mongodb.MongoClient;
 public class ReviewsForAnnotationAnalyzer {
 
 	public static final String DIR_WITH_REVIEW_IDS = "reviewsForAnnotations";
-	public static final String DIR_WITH_REVIEWS_KAF = DIR_WITH_REVIEW_IDS+"_KAF_2";
+	public static final String DIR_WITH_REVIEWS_KAF = DIR_WITH_REVIEW_IDS+"_KAF_20131218";
 //	public static final String[] languages = new String[] { "dutch", "english",
 //			"french", "spanish", "german", "italian" };
 
@@ -72,6 +73,11 @@ public class ReviewsForAnnotationAnalyzer {
 			dirForKaf.mkdirs();
 		}
 		for(String language:reviewIdsPerLanguage.keySet()){
+			//////
+//			if(!language.equalsIgnoreCase("english")){
+//				continue;
+//			}
+			//////
 			System.out.println("Starting with language: "+language);
 			File dirForThisLanguage=new File(dirForKaf.getAbsolutePath()+File.separator+language);
 			if(!dirForThisLanguage.exists()){
@@ -88,7 +94,7 @@ public class ReviewsForAnnotationAnalyzer {
 				String analyzableContent=title+"\n"+comment;
 				analyzableContent=analyzableContent.trim();
 				String kaf=analyzeReviewWithOpeNER(analyzableContent, langNameMap.get(language));
-				String kafFileName=language+"_"+reviewId+".kaf";
+				String kafFileName=language+FileNumberingManager.obtainNumberForAbsolutePath(dirForThisLanguage.getAbsolutePath())+"_"+reviewId+".kaf";
 				File kafFile=new File(dirForThisLanguage.getAbsolutePath()+File.separator+kafFileName);
 				System.out.println("Going to write the kaf file to: "+kafFile.getAbsolutePath());
 				try {
@@ -146,6 +152,12 @@ public class ReviewsForAnnotationAnalyzer {
 	public String analyzeReviewWithOpeNER(String reviewContent, String expectedLang){
 		String kaf=openerService.tokenize(reviewContent, expectedLang);
 		kaf=openerService.postag(kaf, expectedLang);
+		kaf=openerService.nerc(kaf, expectedLang);
+		kaf=openerService.parseConstituents(kaf, expectedLang);
+		String kafCoref=openerService.corefDetect(kaf, expectedLang);
+		if(!kafCoref.trim().equalsIgnoreCase("")){
+			kaf=kafCoref;
+		}//		try {//			KAFDocument kafDoc=KAFDocument.createFromStream(new InputStreamReader(new ByteArrayInputStream(kaf.getBytes())));//			return kafDoc.toString();//		} catch (IOException e) {//			throw new RuntimeException(e);//		}
 		return kaf;
 	}
 	
@@ -197,6 +209,28 @@ public class ReviewsForAnnotationAnalyzer {
 
 		public void setComment(String comment) {
 			this.comment = comment;
+		}
+	}
+	
+	public static class FileNumberingManager{
+		
+		private static Map<String,Integer>numberingMap=Maps.newHashMap();
+		
+		public static synchronized String obtainNumberForAbsolutePath(String absolutePath){
+			int numberOfDigits=5;
+			Integer number=numberingMap.get(absolutePath);
+			String formattedNumber="";
+			if(number==null){
+				number=1;
+				numberingMap.put(absolutePath, 1);
+			}else{
+				numberingMap.put(absolutePath, ++number);
+			}
+			String numberString=""+number;
+			for(int i=0;i<numberOfDigits-numberString.length();i++){
+				formattedNumber+=0;
+			}
+			return formattedNumber+number;
 		}
 	}
 }

@@ -14,14 +14,14 @@ import com.google.common.collect.Maps;
 
 public class BratCollectionGenerator {
 
-	public static final String KAF_DATASET_ROOT="reviewsForAnnotations_KAF_2";
-	public static final String BRAT_COLLECTIONS_ROOT="bratCollectionsForAnnotation_2";
+	public static final String KAF_DATASET_ROOT="reviewsForAnnotations_KAF_20131218";
+	public static final String BRAT_COLLECTIONS_ROOT="bratCollectionsForAnnotation_20131218";
 	
+	private int incorrectlyProcessedFileCount=0;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		BratCollectionGenerator bratCollectionGenerator=new BratCollectionGenerator();
 		File kafDir=new File(KAF_DATASET_ROOT);
 		File bratDir=new File(BRAT_COLLECTIONS_ROOT);
@@ -29,6 +29,7 @@ public class BratCollectionGenerator {
 	}
 	
 	public void generateBratCollectionFromKafDataset(File kafDir, File bratDir){
+		//incorrectlyProcessedFileCount=0;
 		//File rootDirFile=new File(pathToDatasetRoot);
 		File[] files=kafDir.listFiles();
 		if(!bratDir.exists()){
@@ -41,6 +42,7 @@ public class BratCollectionGenerator {
 				generateBratDocsFromKaf(file, bratDir);
 			}
 		}
+		System.out.println("DONE. Number of incorrectly processed files: "+incorrectlyProcessedFileCount);
 	}
 
 	public void generateBratDocsFromKaf(File kafFile, File bratDir){
@@ -51,7 +53,7 @@ public class BratCollectionGenerator {
 			System.out.println("Generating Brat docs for "+kafFile.getName());
 			KafToBratConverter kafToBratConverter=new KafToBratConverter();
 			KafDocument kafDocument=KafDocument.parseKafDocument(new FileInputStream(kafFile));
-			String bratAnn=kafToBratConverter.generateBratAnnotation(kafDocument, PreannotationConfig.getEmptyPreannotationConfig());
+			String bratAnn=kafToBratConverter.generateBratAnnotation(kafDocument, PreannotationConfig.getPreannotationConfig());
 			String whiteSpaceTokenizedText=WhitespaceToken.generateWhiteSpaceTokenizedText(kafDocument);
 			
 			String[] bratFileNames=getBratFilesNames(kafFile.getName(), bratDir);
@@ -61,7 +63,12 @@ public class BratCollectionGenerator {
 			FileUtils.write(bratAnnFile, bratAnn);
 			
 		}catch(Exception e){
-			throw new RuntimeException(e);
+			//if(e.getCause() instanceof JDOMParseException){
+				System.err.println("ERROR processing "+kafFile.getName()+" - The file was probably empty");
+				incorrectlyProcessedFileCount++;
+			//}else{
+			//	throw new RuntimeException(e);
+			//}
 		}
 	}
 	
@@ -71,17 +78,17 @@ public class BratCollectionGenerator {
 	
 	protected String[] getBratFilesNames(String kafFileName, File dir){
 		//String kafFileNameWithoutExtension=kafFileName.substring(0,kafFileName.lastIndexOf("."));
-		String numbering=FileNumberingManager.obtainNumberForAbsolutePath(dir.getAbsolutePath());
+		//String numbering=FileNumberingManager.obtainNumberForAbsolutePath(dir.getAbsolutePath());
 		String bratTxtFileName=kafFileName.substring(0,kafFileName.lastIndexOf("."))+".txt";
-		bratTxtFileName=bratTxtFileName.replace("_",numbering+"_");
+		//bratTxtFileName=bratTxtFileName.replace("_",numbering+"_");
 		String bratAnnFileName=kafFileName.substring(0,kafFileName.lastIndexOf("."))+".ann";
-		bratAnnFileName=bratAnnFileName.replace("_", numbering+"_");
+		//bratAnnFileName=bratAnnFileName.replace("_", numbering+"_");
 		return new String[]{bratTxtFileName,bratAnnFileName};
 	}
 	
 	public static class FileNumberingManager{
 		
-		private static Map<String,Integer>numberingMap=Maps.newHashMap();;
+		private static Map<String,Integer>numberingMap=Maps.newHashMap();
 		
 //		public static FileNumberingManager getInstance(){
 //			return new FileNumberingManager();

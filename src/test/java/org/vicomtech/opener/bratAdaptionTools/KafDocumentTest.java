@@ -2,7 +2,12 @@ package org.vicomtech.opener.bratAdaptionTools;
 
 import static org.junit.Assert.*;
 
+import ixa.kaflib.Coref;
+import ixa.kaflib.Target;
+import ixa.kaflib.Term;
+
 import java.io.InputStream;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +19,7 @@ public class KafDocumentTest {
 
 	public static final String KAF_DOC_PATH="/kaf-example2.xml";
 	public static final String KAF_DOC_PATH2="/kaf-example.xml";
+	public static final String KAF_DOC_PATH3="/english00220_fa8115ab7f09678324fbeee56a7b1f34.kaf";
 	
 	private KafDocument kafDocument;
 	//private KafDocument kafDocument2;
@@ -72,6 +78,24 @@ public class KafDocumentTest {
 		String kafString=kafDocument.getKafAsString();
 		assertNotNull(kafString);
 		System.out.println(kafString);
+	}
+	
+	@Test
+	public void testKafFromReviewSet(){
+		InputStream is=Class.class.getResourceAsStream(KAF_DOC_PATH3);
+		kafDocument=KafDocument.parseKafDocument(is);
+		List<Coref> corefs = kafDocument.getCorefs();
+		for(Coref coref:corefs){
+			List<List<Target>> targetss = coref.getReferences();
+			for(List<Target>targets:targetss){
+				StringBuffer sb=new StringBuffer();
+				for(Target target:targets){
+					sb.append(target.getTerm().getForm()+" ");
+				}
+				System.out.println(sb.toString());
+			}
+			
+		}
 	}
 
 }

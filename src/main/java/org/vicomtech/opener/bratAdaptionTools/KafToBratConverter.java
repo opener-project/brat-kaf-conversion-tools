@@ -28,12 +28,13 @@ public class KafToBratConverter {
 		for(KafToBratHandler handler:preAnnotationConfig.getPreannotationHandlers()){
 			kafTokenSpans.addAll(handler.handle(kafDocument));
 		}
-		kafTokenSpans=KafTokenSpan.mergeKafTokenSpans(kafTokenSpans);
+		//The following line has been commented to avoid the merging of spans (required for markables)
+		//kafTokenSpans=KafTokenSpan.mergeKafTokenSpans(kafTokenSpans);
 		String whiteSpaceTokenizedText=WhitespaceToken.generateWhiteSpaceTokenizedText(kafDocument);
 		List<WhitespaceToken> whitespaceTokenList = WhitespaceToken.parseText(whiteSpaceTokenizedText);
 		BratAnnotationsManager bratAnnotationsManager=new BratAnnotationsManager();
 		AnnotationIdType annotationIdType=AnnotationIdType.ENTITY;
-		String type="markable";
+		String type="Markable";
 		for(KafTokenSpan kafTokenSpan:kafTokenSpans){
 			int start=whitespaceTokenList.get(kafTokenSpan.getInitialToken()).getStart();
 			int end=whitespaceTokenList.get(kafTokenSpan.getFinalToken()).getEnd();
