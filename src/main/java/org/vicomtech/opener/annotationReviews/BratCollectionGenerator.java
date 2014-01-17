@@ -14,8 +14,8 @@ import com.google.common.collect.Maps;
 
 public class BratCollectionGenerator {
 
-	public static final String KAF_DATASET_ROOT="reviewsForAnnotations_KAF_20131218";
-	public static final String BRAT_COLLECTIONS_ROOT="bratCollectionsForAnnotation_20131218";
+	public static final String KAF_DATASET_ROOT="reviewsForAnnotations_set2_KAF_20140114";
+	public static final String BRAT_COLLECTIONS_ROOT="bratCollectionsForAnnotation_set2_20140114";
 	
 	private int incorrectlyProcessedFileCount=0;
 	/**

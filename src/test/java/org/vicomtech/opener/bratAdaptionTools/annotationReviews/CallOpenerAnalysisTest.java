@@ -45,7 +45,9 @@ public class CallOpenerAnalysisTest {
 //		String reviewId="068b3a3273680d4b271a2819ff1d5b18";
 //		String language="en";
 		String reviewId="07e00353493e5be174b5d9eecdd1f923";
+		//String reviewId="e6f324338c3213dbbff15713425a24e5";
 		String language="es";
+		//String language="nl";
 		ReviewInfo reviewInfo = getReviewInfo(reviewId);
 		String title=reviewInfo.getTitle()!=null?reviewInfo.getTitle():"";
 		String comment=reviewInfo.getComment()!=null?reviewInfo.getComment():"";

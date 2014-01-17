@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerServiceImplService
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
@@ -27,12 +29,12 @@ import com.mongodb.MongoClient;
 
 public class ReviewsForAnnotationAnalyzer {
 
-	public static final String DIR_WITH_REVIEW_IDS = "reviewsForAnnotations";
-	public static final String DIR_WITH_REVIEWS_KAF = DIR_WITH_REVIEW_IDS+"_KAF_20131218";
+	public static final String DIR_WITH_REVIEW_IDS = "reviewsForAnnotations_set2";
+	public static final String DIR_WITH_REVIEWS_KAF = DIR_WITH_REVIEW_IDS+"_KAF_20140117";
 //	public static final String[] languages = new String[] { "dutch", "english",
 //			"french", "spanish", "german", "italian" };
 
-	public static final String REVIEW_ID_PATTERN_STRING = "\\Q\"review_id\":\"\\E(\\p{Alnum}+)\";\\s\\s1";
+	public static final String REVIEW_ID_PATTERN_STRING = ".*\\Qreview_id\":\"\\E(\\p{Alnum}+)\";\\s\\s1";
 	private static final Pattern REVIEW_ID_PATTERN = Pattern
 			.compile(REVIEW_ID_PATTERN_STRING);
 
@@ -41,6 +43,7 @@ public class ReviewsForAnnotationAnalyzer {
 
 	private static OpenerService openerService=getOpenerService();
 	private Map<String,String>langNameMap;
+	private Set<String>desiredLanguages;
 	
 	/**
 	 * @param args
@@ -61,6 +64,10 @@ public class ReviewsForAnnotationAnalyzer {
 			langNameMap.put("german", "de");
 			langNameMap.put("dutch", "nl");
 			langNameMap.put("italian", "it");
+			desiredLanguages=Sets.newHashSet();
+			desiredLanguages.add("dutch");
+		//	desiredLanguages.add("german");
+		//	desiredLanguages.add("french");
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
 		}
@@ -115,6 +122,9 @@ public class ReviewsForAnnotationAnalyzer {
 			String fname = f.getName();
 			if (fname.endsWith("_id.txt")) {
 				String currentLanguage = fname.split("_")[0];
+				if(!desiredLanguages.isEmpty() && !desiredLanguages.contains(currentLanguage)){
+					continue;
+				}
 				List<String> reviewIds = readIdsFromFile(f);
 				reviewIdsPerLanguage.put(currentLanguage, reviewIds);
 			}
@@ -123,16 +133,20 @@ public class ReviewsForAnnotationAnalyzer {
 	}
 
 	public List<String> readIdsFromFile(File file) {
+		System.out.println("Reading ids from file: "+file.getAbsolutePath());
 		try {
 			List<String> reviewIds = Lists.newArrayList();
 			List<String> lines = FileUtils.readLines(file);
 			Matcher matcher;
 			for (String line : lines) {
-				matcher = REVIEW_ID_PATTERN.matcher(line);
+				matcher = REVIEW_ID_PATTERN.matcher(line.trim());
 				if (matcher.find()) {
 					reviewIds.add(matcher.group(1));
+				}else{
+					System.out.println("Line from ids file not matched: "+line.trim());
 				}
 			}
+			System.out.println("Number of read Ids: "+reviewIds.size());
 			return reviewIds;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -153,11 +167,13 @@ public class ReviewsForAnnotationAnalyzer {
 		String kaf=openerService.tokenize(reviewContent, expectedLang);
 		kaf=openerService.postag(kaf, expectedLang);
 		kaf=openerService.nerc(kaf, expectedLang);
+		
 		kaf=openerService.parseConstituents(kaf, expectedLang);
 		String kafCoref=openerService.corefDetect(kaf, expectedLang);
 		if(!kafCoref.trim().equalsIgnoreCase("")){
 			kaf=kafCoref;
-		}//		try {//			KAFDocument kafDoc=KAFDocument.createFromStream(new InputStreamReader(new ByteArrayInputStream(kaf.getBytes())));//			return kafDoc.toString();//		} catch (IOException e) {//			throw new RuntimeException(e);//		}
+		}
+		//		try {//			KAFDocument kafDoc=KAFDocument.createFromStream(new InputStreamReader(new ByteArrayInputStream(kaf.getBytes())));//			return kafDoc.toString();//		} catch (IOException e) {//			throw new RuntimeException(e);//		}
 		return kaf;
 	}
 	
