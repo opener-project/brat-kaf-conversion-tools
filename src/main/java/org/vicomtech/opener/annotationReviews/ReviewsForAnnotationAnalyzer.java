@@ -29,8 +29,12 @@ import com.mongodb.MongoClient;
 
 public class ReviewsForAnnotationAnalyzer {
 
-	public static final String DIR_WITH_REVIEW_IDS = "reviewsForAnnotations_set2";
-	public static final String DIR_WITH_REVIEWS_KAF = DIR_WITH_REVIEW_IDS+"_KAF_20140117";
+	public static final String DIR_FOR_ID_FILES="reviewIDs";
+	public static final String DIR_FOR_KAF_DOCS="KAF_DOCS";
+	public static final String DIR_WITH_REVIEW_IDS = "attractionReviews";
+	public static final String PATH_TO_DIR_WITH_REVIEW_IDS=DIR_FOR_ID_FILES+File.separator+DIR_WITH_REVIEW_IDS;
+	public static final String DIR_WITH_REVIEWS_KAF = DIR_FOR_KAF_DOCS+File.separator+DIR_WITH_REVIEW_IDS+"_KAF_20140127";
+	public static final String COLLECTION_CONTAINING_THE_REVIEWS="attractions";
 //	public static final String[] languages = new String[] { "dutch", "english",
 //			"french", "spanish", "german", "italian" };
 
@@ -68,6 +72,9 @@ public class ReviewsForAnnotationAnalyzer {
 			desiredLanguages.add("dutch");
 		//	desiredLanguages.add("german");
 		//	desiredLanguages.add("french");
+		//	desiredLanguages.add("spanish");
+		//	desiredLanguages.add("italian");
+		//	desiredLanguages.add("english");
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
 		}
@@ -94,20 +101,24 @@ public class ReviewsForAnnotationAnalyzer {
 			List<String> reviewIdsForThisLanguage=reviewIdsPerLanguage.get(language);
 			int count=0;
 			for(String reviewId:reviewIdsForThisLanguage){
-				System.out.println("Analyzing review with id: "+reviewId+" (count: "+(++count)+")");
-				ReviewInfo reviewInfo = getReviewInfo(reviewId);
-				String title=reviewInfo.getTitle()!=null?reviewInfo.getTitle():"";
-				String comment=reviewInfo.getComment()!=null?reviewInfo.getComment():"";
-				String analyzableContent=title+"\n"+comment;
-				analyzableContent=analyzableContent.trim();
-				String kaf=analyzeReviewWithOpeNER(analyzableContent, langNameMap.get(language));
-				String kafFileName=language+FileNumberingManager.obtainNumberForAbsolutePath(dirForThisLanguage.getAbsolutePath())+"_"+reviewId+".kaf";
-				File kafFile=new File(dirForThisLanguage.getAbsolutePath()+File.separator+kafFileName);
-				System.out.println("Going to write the kaf file to: "+kafFile.getAbsolutePath());
-				try {
-					FileUtils.write(kafFile, kaf, "UTF-8");
-				} catch (IOException e) {
-					throw new RuntimeException(e);
+				try{
+					System.out.println("Analyzing review with id: "+reviewId+" (count: "+(++count)+")");
+					ReviewInfo reviewInfo = getReviewInfo(reviewId);
+					String title=reviewInfo.getTitle()!=null?reviewInfo.getTitle():"";
+					String comment=reviewInfo.getComment()!=null?reviewInfo.getComment():"";
+					String analyzableContent=title+"\n"+comment;
+					analyzableContent=analyzableContent.trim();
+					String kafFileName=language+FileNumberingManager.obtainNumberForAbsolutePath(dirForThisLanguage.getAbsolutePath())+"_"+reviewId+".kaf";
+					String kaf=analyzeReviewWithOpeNER(analyzableContent, langNameMap.get(language));
+					File kafFile=new File(dirForThisLanguage.getAbsolutePath()+File.separator+kafFileName);
+					System.out.println("Going to write the kaf file to: "+kafFile.getAbsolutePath());
+					try {
+						FileUtils.write(kafFile, kaf, "UTF-8");
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
 				}
 			}
 		}
@@ -116,7 +127,7 @@ public class ReviewsForAnnotationAnalyzer {
 
 	public Map<String, List<String>> getReviewIdsPerLanguage() {
 		Map<String, List<String>> reviewIdsPerLanguage = Maps.newHashMap();
-		File file = new File(DIR_WITH_REVIEW_IDS);
+		File file = new File(PATH_TO_DIR_WITH_REVIEW_IDS);
 		File[] files = file.listFiles();
 		for (File f : files) {
 			String fname = f.getName();
@@ -154,7 +165,7 @@ public class ReviewsForAnnotationAnalyzer {
 	}
 
 	public ReviewInfo getReviewInfo(String reviewId) {
-		DBCollection collection = db.getCollection("reviews-all");
+		DBCollection collection = db.getCollection(COLLECTION_CONTAINING_THE_REVIEWS);
 		BasicDBObject query = new BasicDBObject("review_id", reviewId);
 		DBObject dbObject = collection.findOne(query);
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -168,10 +179,14 @@ public class ReviewsForAnnotationAnalyzer {
 		kaf=openerService.postag(kaf, expectedLang);
 		kaf=openerService.nerc(kaf, expectedLang);
 		
-		kaf=openerService.parseConstituents(kaf, expectedLang);
-		String kafCoref=openerService.corefDetect(kaf, expectedLang);
-		if(!kafCoref.trim().equalsIgnoreCase("")){
-			kaf=kafCoref;
+		String kafConstit = openerService.parseConstituents(kaf, expectedLang);
+		if (kafConstit!=null && !kafConstit.trim().equalsIgnoreCase("")) {
+			kaf=kafConstit;
+			String kafCoref = openerService.corefDetect(kafConstit,
+					expectedLang);
+			if (!kafCoref.trim().equalsIgnoreCase("")) {
+				kaf = kafCoref;
+			}
 		}
 		//		try {//			KAFDocument kafDoc=KAFDocument.createFromStream(new InputStreamReader(new ByteArrayInputStream(kaf.getBytes())));//			return kafDoc.toString();//		} catch (IOException e) {//			throw new RuntimeException(e);//		}
 		return kaf;
@@ -186,6 +201,7 @@ public class ReviewsForAnnotationAnalyzer {
 		BindingProvider bp = (BindingProvider) service;
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
 				endpointURL);
+		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 60000);
 		return service;
 	}
 
