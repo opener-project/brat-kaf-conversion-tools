@@ -19,3 +19,5 @@ reviewsForAnnotations_set2*/
 BRAT_DOCS/
 KAF_DOCS/
 reviewIDS/
+NEWS_*
+PROCESSED_NEWS_*

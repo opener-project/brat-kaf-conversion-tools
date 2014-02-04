@@ -1,4 +1,4 @@
-package org.vicomtech.opener.annotationReviews;
+package org.vicomtech.opener.bratAdaptionTools.Main;
 
 
 import java.io.File;

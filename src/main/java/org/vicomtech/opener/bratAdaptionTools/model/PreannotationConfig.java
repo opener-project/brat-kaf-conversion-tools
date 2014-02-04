@@ -10,6 +10,13 @@ import org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers.KafToBratHandler
 
 import com.google.common.collect.Lists;
 
+/**
+ * This class controls which handlers are used to generate the automatic annotation from KAF to Brat. 
+ * NOTE: a good practice should be read the config from an external config file, 
+ * but for now it is hardcoded here (comment/uncomment the handlers manually to enable/disable the annotations)
+ * @author agarciap
+ *
+ */
 public class PreannotationConfig {
 
 	

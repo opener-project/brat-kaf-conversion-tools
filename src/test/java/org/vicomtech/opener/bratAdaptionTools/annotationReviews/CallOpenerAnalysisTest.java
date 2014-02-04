@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.vicomtech.opener.annotationReviews.ReviewsForAnnotationAnalyzer.ReviewInfo;
+import org.vicomtech.opener.bratAdaptionTools.Main.ReviewsForAnnotationAnalyzer.ReviewInfo;
 import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerService;
 import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerServiceImplService;
 

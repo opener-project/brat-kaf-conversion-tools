@@ -1,4 +1,4 @@
-package org.vicomtech.opener.annotationReviews;
+package org.vicomtech.opener.bratAdaptionTools.Main;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,10 +12,18 @@ import org.vicomtech.opener.bratAdaptionTools.model.WhitespaceToken;
 
 import com.google.common.collect.Maps;
 
+/**
+ * This class reads the KAF files inside a directory and obtains the brat representation.
+ * The brat representation consist on .txt files with the KAF tokens separated by whitespaces and 
+ * .ann files with the automatic annotation if any (e.g. automatic markables) 
+ * Which automatic annotation is added is controlled by the org.vicomtech.opener.bratAdaptionTools.model.PreannotationConfig class
+ * @author agarciap
+ *
+ */
 public class BratCollectionGenerator {
 
-	public static final String KAF_DATASET_ROOT="KAF_DOCS/hotelReviewsSet1_KAF_20140127";
-	public static final String BRAT_COLLECTIONS_ROOT="BRAT_DOCS/hotelReviewsSet1_BRAT_20140127";
+	public static final String KAF_DATASET_ROOT="KAF_DOCS/attractionReviews_KAF_20140203";
+	public static final String BRAT_COLLECTIONS_ROOT="BRAT_DOCS/attractionReviews_BRAT_20140203";
 	
 	private int incorrectlyProcessedFileCount=0;
 	/**
