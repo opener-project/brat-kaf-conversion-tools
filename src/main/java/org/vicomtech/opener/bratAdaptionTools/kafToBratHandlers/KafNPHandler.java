@@ -1,6 +1,7 @@
 package org.vicomtech.opener.bratAdaptionTools.kafToBratHandlers;
 
 import ixa.kaflib.NonTerminal;
+import ixa.kaflib.Span;
 import ixa.kaflib.Term;
 import ixa.kaflib.Terminal;
 import ixa.kaflib.Tree;
@@ -61,7 +62,10 @@ public class KafNPHandler implements KafToBratHandler{
 				terms.addAll(getWFIdsForANonTerminal((NonTerminal)treeNode));
 			}else if(treeNode instanceof Terminal){
 				Terminal terminal=(Terminal)treeNode;
-				terms.add(terminal.getTerm());
+				Span<Term>termSpan=terminal.getSpan();
+				for(Term term:termSpan.getTargets()){
+					terms.add(term);
+				}
 			}
 		}
 		return terms;
