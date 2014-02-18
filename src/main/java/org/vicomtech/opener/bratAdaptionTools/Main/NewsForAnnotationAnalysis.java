@@ -1,7 +1,7 @@
 package org.vicomtech.opener.bratAdaptionTools.Main;
 
 import java.io.File;
-import java.io.IOException;
+//import java.io.IOException;
 import java.util.Set;
 
 import javax.xml.ws.BindingProvider;
@@ -15,9 +15,9 @@ import com.google.common.collect.Sets;
 public class NewsForAnnotationAnalysis {
 
 	public static final String NEWS_DATASET_ROOT_FOLDER="NEWS_FOR_ANNOTATION";
-	public static final String PROCESSED_NEWS_OUTPUT_FOLDER="PROCESSED_NEWS_DATASET_20140204";
+	public static final String PROCESSED_NEWS_OUTPUT_FOLDER="KAF_DOCS/PROCESSED_NEWS_DATASET_20140217";
 	
-	public static Set<String>languagesToProcess=Sets.newHashSet();;
+	public static Set<String>languagesToProcess=Sets.newHashSet();
 	
 	private static OpenerService openerService=getOpenerService();
 	
@@ -28,7 +28,7 @@ public class NewsForAnnotationAnalysis {
 //		languagesToProcess.add("en");
 //		languagesToProcess.add("it");
 //		languagesToProcess.add("nl");
-//		languagesToProcess.add("de");
+		languagesToProcess.add("de");
 	}
 	
 	/**
@@ -84,9 +84,11 @@ public class NewsForAnnotationAnalysis {
 					fOut.getParentFile().mkdirs();
 				}
 
-				FileUtils.write(fOut, resultingKAF);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+				FileUtils.write(fOut, resultingKAF,"UTF-8");
+			} catch (Exception e) {
+				System.err.println("ERROR IN FILE: "+currentFile.getPath());
+				//throw new RuntimeException(e);
+				e.printStackTrace();
 			}
 		}
 		
@@ -120,7 +122,7 @@ public class NewsForAnnotationAnalysis {
 			kaf = openerService.tokenize(reviewContent, expectedLang);
 		}
 		kaf = openerService.postag(kaf, expectedLang);
-		kaf = openerService.nerc(kaf, expectedLang);
+		//kaf = openerService.nerc(kaf, expectedLang);
 		
 //		String kafConstit = openerService.parseConstituents(kaf, expectedLang);
 //		if (kafConstit!=null && !kafConstit.trim().equalsIgnoreCase("")) {

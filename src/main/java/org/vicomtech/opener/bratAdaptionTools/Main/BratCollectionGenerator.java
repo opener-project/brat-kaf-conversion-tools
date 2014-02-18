@@ -22,8 +22,8 @@ import com.google.common.collect.Maps;
  */
 public class BratCollectionGenerator {
 
-	public static final String KAF_DATASET_ROOT="KAF_DOCS/attractionReviews_KAF_20140203";
-	public static final String BRAT_COLLECTIONS_ROOT="BRAT_DOCS/attractionReviews_BRAT_20140203";
+	public static final String KAF_DATASET_ROOT="KAF_DOCS/hotelReviewsSet1_KAF_20140217";//"KAF_DOCS/attractionReviews_KAF_20140203";
+	public static final String BRAT_COLLECTIONS_ROOT="BRAT_DOCS/hotelReviewsSet1_BRAT_20140217";//"BRAT_DOCS/attractionReviews_BRAT_20140203";
 	
 	private int incorrectlyProcessedFileCount=0;
 	/**

@@ -68,7 +68,13 @@
 			<version>2.2.4</version>
 		</dependency>
 
-
+		<!-- MySQL Java Connector -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.28</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
