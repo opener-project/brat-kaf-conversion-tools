@@ -33,7 +33,7 @@ public class ReviewsForAnnotationAnalyzer {
 	public static final String DIR_FOR_KAF_DOCS="KAF_DOCS";
 	public static final String DIR_WITH_REVIEW_IDS = "hotelReviewsSet2";
 	public static final String PATH_TO_DIR_WITH_REVIEW_IDS=DIR_FOR_ID_FILES+File.separator+DIR_WITH_REVIEW_IDS;
-	public static final String DIR_WITH_REVIEWS_KAF = DIR_FOR_KAF_DOCS+File.separator+DIR_WITH_REVIEW_IDS+"_KAF_20140217";
+	public static final String DIR_WITH_REVIEWS_KAF = DIR_FOR_KAF_DOCS+File.separator+DIR_WITH_REVIEW_IDS+"_KAF_20140302";
 	public static final String COLLECTION_CONTAINING_THE_REVIEWS="reviews-all";
 //	public static final String[] languages = new String[] { "dutch", "english",
 //			"french", "spanish", "german", "italian" };
@@ -71,10 +71,10 @@ public class ReviewsForAnnotationAnalyzer {
 			desiredLanguages=Sets.newHashSet();
 		//	desiredLanguages.add("dutch");
 			desiredLanguages.add("german");
-		//	desiredLanguages.add("french");
+			desiredLanguages.add("french");
 		//	desiredLanguages.add("spanish");
-		//	desiredLanguages.add("italian");
-		//	desiredLanguages.add("english");
+			desiredLanguages.add("italian");
+			desiredLanguages.add("english");
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
 		}
@@ -197,7 +197,8 @@ public class ReviewsForAnnotationAnalyzer {
 		OpenerService service = serviceImpl.getOpenerServiceImplPort();
 		// La URL que quieras, esto es lo que deberías obtener mediante
 		// configuración externa
-		String endpointURL = "http://192.168.17.128:9999/ws/opener?wsdl";
+//		String endpointURL = "http://192.168.17.128:9999/ws/opener?wsdl";
+		String endpointURL = "http://100.68.0.19:9999/ws/opener?wsdl";
 		BindingProvider bp = (BindingProvider) service;
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
 				endpointURL);

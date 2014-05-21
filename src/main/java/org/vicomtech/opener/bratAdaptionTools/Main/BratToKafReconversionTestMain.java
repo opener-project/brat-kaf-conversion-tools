@@ -2,9 +2,11 @@ package org.vicomtech.opener.bratAdaptionTools.Main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 //import java.util.Map;
 //import java.io.InputStream;
+
 
 import javax.xml.ws.BindingProvider;
 
@@ -17,10 +19,14 @@ import com.google.common.collect.Lists;
 
 //import com.google.common.collect.Maps;
 
+
 import static org.vicomtech.opener.bratAdaptionTools.Main.BratAnnotationGenerationTestingMain.*;
 
 public class BratToKafReconversionTestMain {
 
+	public static final String BRAT_DOCUMENTS_DIR="/D:/stuff_from_the_laptop_itself/BRAT_ANNOTATED_FILES_TO_KAF/HOTEL_SET_1_BRAT/english";
+	public static final String KAF_DOCUMENT_DIR="/D:/stuff_from_the_laptop_itself/BRAT_ANNOTATED_FILES_TO_KAF/HOTEL_SET_1_KAF/english";
+	
 	private static OpenerService openerService=getOpenerService();
 	
 	/**
@@ -32,6 +38,15 @@ public class BratToKafReconversionTestMain {
 //		for(String arg:args){
 //			
 //		}
+		if(System.console()==null){
+			System.out.println("Creating our own args");
+			args=new String[]{"-d-brat",BRAT_DOCUMENTS_DIR,"-d-kaf",KAF_DOCUMENT_DIR};
+		}
+		System.out.println("Executing with: "+Arrays.toString(args));
+		execute(args);
+	}
+	public static void execute(String[]args) throws IOException{
+		
 		if(args.length==0){
 			testingExecution();
 		}else{
@@ -73,7 +88,7 @@ public class BratToKafReconversionTestMain {
 			String pathToCorrespondingAnnFile=pathToBratTxtFile.replace(".txt", ".ann");
 			File kafFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingKafFile);
 			File annFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingAnnFile);
-			if (annFile.lastModified() > kafFile.lastModified()) {
+			if (annFile.lastModified() > kafFile.lastModified() || true) {
 				System.out.println("Going to convert BRAT to KAF: bratTxtPath:"
 						+ pathToBratTxtFile + " pathToKaf: "
 						+ pathToCorrespondingKafFile);
@@ -114,8 +129,8 @@ public class BratToKafReconversionTestMain {
 			if (f.exists()) {
 				return f;
 			} else {
-				File fDir = new File(filePath.substring(0,
-						filePath.lastIndexOf("/")));
+				System.out.println("FILEPATH:" +filePath);
+				File fDir = new File(filePath.substring(0,filePath.lastIndexOf(File.separator)));
 				fDir.mkdirs();
 
 				f.createNewFile();

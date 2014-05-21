@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.vicomtech.opener.bratAdaptionTools.bratAnnHandlers.AnnotationHandler;
 import org.vicomtech.opener.bratAdaptionTools.bratAnnHandlers.AnnotationHandlerDispatcher;
 import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation;
@@ -16,6 +17,8 @@ import com.google.common.collect.Lists;
 
 public class BratAnnotationFileParser {
 
+	private Logger log=Logger.getLogger(BratAnnotationFileParser.class);
+	
 	private AnnotationHandlerDispatcher annotationHandlerDispatcher;
 	
 	public BratAnnotationFileParser(){
@@ -64,8 +67,12 @@ public class BratAnnotationFileParser {
 		}
 		String[]bratAnnFileLines=bratAnnDoc.split("\n");
 		for(String bratAnnFileLine:bratAnnFileLines){
-			BratAnnotation bratAnnotation=parseBratAnnotation(bratAnnFileLine.trim());
-			bratAnnotations.add(bratAnnotation);
+			try{
+				BratAnnotation bratAnnotation=parseBratAnnotation(bratAnnFileLine.trim());
+				bratAnnotations.add(bratAnnotation);
+			}catch(Exception e){
+				log.warn("Some error parsing a brat annotation: "+bratAnnFileLine.trim()+" ; Skipping...");
+			}
 		}
 		return bratAnnotations;
 	}
