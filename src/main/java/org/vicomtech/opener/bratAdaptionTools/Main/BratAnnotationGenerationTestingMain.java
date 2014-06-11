@@ -14,6 +14,7 @@ import org.vicomtech.opener.bratAdaptionTools.model.WhitespaceToken;
 import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerService;
 import org.vicomtech.opener.bratAdaptionTools.ws.client.OpenerServiceImplService;
 
+@Deprecated
 public class BratAnnotationGenerationTestingMain {
 
 	public static final String DIR_WITH_RAW_FILES="KAF_TO_BRAT_TESTS";

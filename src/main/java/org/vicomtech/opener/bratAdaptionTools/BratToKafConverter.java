@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.vicomtech.opener.bratAdaptionTools.bratToKafHandlers.BratToKafHandler;
 import org.vicomtech.opener.bratAdaptionTools.bratToKafHandlers.BratToKafHandlersDispatcher;
 import org.vicomtech.opener.bratAdaptionTools.model.BratAnnotation;

@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 
 import static org.vicomtech.opener.bratAdaptionTools.Main.BratAnnotationGenerationTestingMain.*;
 
+@Deprecated
 public class BratToKafReconversionTestMain {
 
 	public static final String BRAT_DOCUMENTS_DIR="/D:/stuff_from_the_laptop_itself/BRAT_ANNOTATED_FILES_TO_KAF/HOTEL_SET_1_BRAT/english";
@@ -88,7 +89,7 @@ public class BratToKafReconversionTestMain {
 			String pathToCorrespondingAnnFile=pathToBratTxtFile.replace(".txt", ".ann");
 			File kafFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingKafFile);
 			File annFile=retrieveOrCreateFileAndTheRequiredDirs(pathToCorrespondingAnnFile);
-			if (annFile.lastModified() > kafFile.lastModified() || true) {
+			if (annFile.lastModified() > kafFile.lastModified()) {
 				System.out.println("Going to convert BRAT to KAF: bratTxtPath:"
 						+ pathToBratTxtFile + " pathToKaf: "
 						+ pathToCorrespondingKafFile);
