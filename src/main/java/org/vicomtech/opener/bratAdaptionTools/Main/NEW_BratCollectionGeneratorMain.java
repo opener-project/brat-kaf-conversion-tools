@@ -11,16 +11,19 @@ import org.apache.commons.cli.Options;
 public class NEW_BratCollectionGeneratorMain {
 
 	private static Options options;
+	
+	public static final String KAF_DIR_OPT="kaf";
+	public static final String BRAT_DIR_OPT="brat";
 
 	static {
 		options = new Options();
 		options.addOption("h", "help", false, "Prints this message");
-		options.addOption("brat-output-dir", true,
+		options.addOption(BRAT_DIR_OPT, true,
 				"Path to directory that will contain the generated Brat collection");
-		options.getOption("brat-output-dir").setRequired(true);
-		options.addOption("kaf-input-dir", true,
+		options.getOption(BRAT_DIR_OPT).setRequired(true);
+		options.addOption(KAF_DIR_OPT, true,
 				"Path to directory with the KAF files to generate the Brat collection");
-		options.getOption("kaf-input-dir").setRequired(true);
+		options.getOption(KAF_DIR_OPT).setRequired(true);
 	}
 	
 	/**
@@ -38,8 +41,8 @@ public class NEW_BratCollectionGeneratorMain {
 		try {
 			// parse the command line arguments
 			CommandLine line = parser.parse(options, args);
-			String bratOutputDir=line.getOptionValue("brat-output-dir");
-			String kafInputDir=line.getOptionValue("kaf-input-dir");
+			String bratOutputDir=line.getOptionValue(BRAT_DIR_OPT);
+			String kafInputDir=line.getOptionValue(KAF_DIR_OPT);
 			File kafDir=new File(kafInputDir);
 			File bratDir=new File(bratOutputDir);
 			
