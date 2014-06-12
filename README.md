@@ -1,6 +1,7 @@
 ## Reference
 
-This repository contains the code employed to convert OpeNER KAF files to a Brat annotation tool collection files.
+This repository contains the code employed to convert OpeNER KAF files to a Brat annotation tool collection files. More details about the role this toolkit has played in the OpeNER annotation campaign can be found in the OpeNER deliverable D3.52.
+
 Brat collections require two files per document:
   * A .txt file containing the plain text to annotate
   * A .ann file, which is a metadata file holding the annotation information generated when an annotation is added
