@@ -2,20 +2,21 @@
 
 This repository contains the code employed to convert OpeNER KAF files to a Brat annotation tool collection files.
 Brat collections require two files per document:
--A .txt file containing the plain text to annotate
--A .ann file, which is a metadata file holding the annotation information generated when an annotation is added
+  * A .txt file containing the plain text to annotate
+  * A .ann file, which is a metadata file holding the annotation information generated when an annotation is added
 
 The format of these documents is specified in the Brat annotation tool website.
 Please, visit http://brat.nlplab.org/ for more information about Brat.
 
 In OpeNER we have used the Brat version 1.3, with a minor tweak to force Brat to tag full tokens (using white spaces as the boundaries) instead of the default per-character basis.
 
+
 ### Command Line Interface
 
 The code has received a CLI wrapping in order to be able of calling it from the command line.
 The are two possible operations:
--convert a set of KAF documents to a Brat collection
--dump a Brat collection annotations back to enriched KAF files (i.e. the original KAF files plus the annotation information)
+* convert a set of KAF documents to a Brat collection
+* dump a Brat collection annotations back to enriched KAF files (i.e. the original KAF files plus the annotation information)
 
 You need Apache Maven in your computer in order to package the code.
 To execute the tool first go to the directory containing the source code and the pom.xml issue a:
